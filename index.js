@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
+
 /*
 // Check if the .env file exists
 const envFilePath = path.join(__dirname, '.env');
@@ -25,10 +27,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const app = express();
-const PORT = process.env.PORT || 8000; // Use PORT environment variable if provided, otherwise default to 8000
+app.use(cors());
+const PORT = process.env.PORT || 8000; 
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB:', err));
 

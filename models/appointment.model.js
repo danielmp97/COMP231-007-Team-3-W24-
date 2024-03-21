@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Doctor = require('./doctor.model'); // Import Doctor model
-const Patient = require('./patient.model'); // Import Patient model
+const Doctor = require('./doctor.model'); 
+const Patient = require('./patient.model'); 
 
 const appointmentSchema = new mongoose.Schema({
   patient: {
@@ -21,7 +21,13 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  notes: String
+  notes: String,
+  patientName: {
+    type: String,
+  },
+  doctorName: {
+    type: String,
+  }
 });
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);

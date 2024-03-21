@@ -1,31 +1,53 @@
+const { get } = require('mongoose');
 const Appointment = require('../models/appointment.model');
+const Doctor = require('../models/doctor.model');
+const Patient = require('../models/patient.model');
 
 async function createAppointment(req, res) {
-    try {
-      const { patient, doctor, dateTime, reason, notes } = req.body; // Use correct field names
-      
-      console.log('patient:', patient);
-      console.log('doctor:', doctor);
-      console.log('dateTime:', dateTime);
-      console.log('reason:', reason);
-      console.log('notes:', notes);
-      
-      const newAppointment = new Appointment({
-        patient,
-        doctor,
-        dateTime,
-        reason,
-        notes
-      });
-  
-      await newAppointment.save();
-  
-      res.status(201).json({ message: 'Appointment created successfully' });
-    } catch (error) {
-      console.error('Error creating appointment:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
+  try {
+    const { patient, doctor, dateTime, reason, notes } = req.body;
+    console.log(doctor);
+    
+    const { doctorName, patientName } = await getDoctorAndPatientName(doctor, patient);
+    
+    const newAppointment = new Appointment({
+      patient,
+      doctor,
+      dateTime,
+      reason,
+      notes,
+      patientName: patientName,
+      doctorName: doctorName
+    });
+
+    await newAppointment.save();
+
+    res.status(201).json({ message: 'Appointment created successfully' });
+  } catch (error) {
+    console.error('Error creating appointment:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
+}
+
+async function getDoctorAndPatientName(doctorId, patientId) {
+  try {
+    const doctor = await Doctor.findById(doctorId);
+    const patient = await Patient.findById(patientId);
+    console.log(doctorId);
+    
+    if (!doctor) {
+      throw new Error('Doctor not found');
+    }
+    else if (!patient) {
+      throw new Error('Patient not found');
+    }
+    
+    return { doctorName: doctor.name, patientName: patient.name };
+  } catch (error) {
+    console.error('Error fetching doctor and patient name:', error);
+    throw error; 
+  }
+}
   
 
 async function getAllAppointments(req, res) {
