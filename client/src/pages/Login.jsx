@@ -1,14 +1,41 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import './Login.css'; 
 import loginImage from '../assets/login-image.jpg';
 
 function Login() {
+  const URL = 'http://localhost:8000/';
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('doctor');
+  const [userType, setUserType] = useState('patient');
+  const navigate = useNavigate(); 
 
-  const handleLogin = () => {
-    console.log(`Logging in as ${userType} with username: ${username} and password: ${password}`);
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(URL + 'login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: username,
+          password: password,
+          role: userType
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const token = data.token;
+        document.cookie = `token=${token}; path=/`; 
+        console.log('Login successful. Token:', token);
+        navigate('/');
+      } else {
+        console.error('Login failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -46,7 +73,8 @@ function Login() {
             >
               <option value="doctor">Doctor</option>
               <option value="patient">Patient</option>
-              <option value="staff">Staff</option>
+              <option value="IT staff">Staff</option>
+              <option value="front desk">Front Desk</option>
             </select>
           </div>
           <button onClick={handleLogin}>Login</button>
