@@ -4,6 +4,7 @@ import NavigationBar from './pages/NavigationBar';
 import Homepage from './pages/Homepage';
 import CreateAppointment from './pages/createAppointment'; 
 import Appointments from './pages/Appointments';
+import MyProfile from './pages/MyProfile';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/create-appointment" element={<CreateAppointment />} /> 
           <Route path="/my-appointments" element={<Appointments />} />
+          <Route path="/my-profile" element={<MyProfile />} />
         </Routes>
       </div>
     </Router>
