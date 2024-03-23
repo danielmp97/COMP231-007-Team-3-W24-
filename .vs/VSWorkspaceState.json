@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\client",
+    "\\client\\src",
+    "\\controllers",
+    "\\models",
+    "\\routes"
   ],
-  "SelectedNode": "\\C:\\Users\\pram1\\Source\\Repos\\COMP231-007-Team-3-W24-",
+  "SelectedNode": "\\client\\src\\App.jsx",
   "PreviewInSolutionExplorer": false
 }
