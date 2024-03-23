@@ -1,34 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Homepage.css';
 import { jwtDecode } from "jwt-decode";
+import logo_slogan from '../assets/logo-slogan.png'; // Import your logo image file
+
 
 function Homepage() {
-  const [lastAppointment, setLastAppointment] = useState(null);
-  const URL = 'http://localhost:8000/';
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch appointments
-        const response = await fetch(URL + 'appointments');
-        const data = await response.json();
-        console.log(data);
+  const getToken = () => {
+    const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
+    return token;
+  };
 
-        // Find the last appointment
-        const last = data[data.length - 1];
-        setLastAppointment(last);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-
-    fetchData(); // Call fetchData when the component mounts
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Empty dependency array to ensure useEffect runs only once
-
-  // Get user name from decoded token
-  const user = jwtDecode(document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1]).name;
+  const user = jwtDecode(getToken()).name;
 
   return (
     <div>
@@ -42,22 +25,20 @@ function Homepage() {
             </div>
           </td>
           <td id='right-message'>
-            <div className="homepage-container">
+            <div className="homepage-container">  
               <h1 id='title-container'>Your next appointment:</h1>
-              <hr />
-              {lastAppointment && (
-                <div>
-                  <p>Patient Name: {lastAppointment.patientName}</p>
-                  <p>Doctor: {lastAppointment.doctorName}</p>
-                  <p>Date: {new Date(lastAppointment.dateTime).toLocaleDateString()}</p>
-                  <p>Time: {new Date(lastAppointment.dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                  <p>Reason: {lastAppointment.reason}</p>
-                </div>
-              )}
+              <hr></hr>
             </div>
           </td>
         </tr>
       </table>
+      {/* <h2>Welcome to Medical Appointment Scheduler</h2>
+              <h3>How it works?</h3>
+              <h3>This app allows you to easily schedule appointments with doctors.</h3>
+              <p>To start, click on the button "New Appointment" to create a new appointment with the doctor of your choice.
+                  Fill out the form and you're all set!
+              </p> */}
+
     </div>
   );
 }

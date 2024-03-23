@@ -1,15 +1,23 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 import './NavigationBar.css';
 import logo from '../assets/logo.png'; // Import your logo image file
 
 function NavigationBar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isLoginRoute = location.pathname === '/login';
 
   if (isLoginRoute) {
     return null; 
   }
+
+  const handleSignOut = () => {
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    // Redirect the user to the login page after signing out
+    navigate('/login');
+  };
 
   return (
     <nav className="nav">
@@ -25,10 +33,6 @@ function NavigationBar() {
       <button onClick={handleSignOut} className='signout-button'>Sign Out</button>
     </nav>
   );
-}
-
-function handleSignOut() {
-  // Logic to handle sign out
 }
 
 export default NavigationBar;
