@@ -6,15 +6,7 @@ const Patient = require("../models/patient.model");
 async function createAppointment(req, res) {
   try {
     const { patient, doctor, dateTime, reason, notes } = req.body;
-
-    // Check if there's any existing appointment for the same doctor at the same time
-    const existingAppointment = await Appointment.findOne({ doctor, dateTime });
-    if (existingAppointment) {
-      return res.status(400).json({
-        error:
-          "Appointment time overlaps with an existing appointment for the same doctor",
-      });
-    }
+    console.log(doctor);
 
     const { doctorName, patientName } = await getDoctorAndPatientName(
       doctor,
@@ -27,8 +19,8 @@ async function createAppointment(req, res) {
       dateTime,
       reason,
       notes,
-      patientName,
-      doctorName,
+      patientName: patientName,
+      doctorName: doctorName,
     });
 
     await newAppointment.save();
