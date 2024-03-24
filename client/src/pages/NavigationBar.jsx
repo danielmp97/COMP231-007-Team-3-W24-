@@ -14,6 +14,7 @@ function NavigationBar() {
   }
 
   const handleSignOut = () => {
+    //clear cookie
     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     // Redirect the user to the login page after signing out
     navigate('/login');

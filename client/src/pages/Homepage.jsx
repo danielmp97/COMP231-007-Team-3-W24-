@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Homepage.css';
 import { jwtDecode } from "jwt-decode";
-import logo_slogan from '../assets/logo-slogan.png'; // Import your logo image file
-
 
 function Homepage() {
+
+  const [lastAppointment, setLastAppointment] = useState(null);
+  const URL = 'http://localhost:8000/'; //This constant needs to change when the application is deployed
 
   const getToken = () => {
     const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
@@ -12,6 +13,25 @@ function Homepage() {
   };
 
   const user = jwtDecode(getToken()).name;
+
+  useEffect(() => {
+    const getLastAppointment = async () => {
+      try {
+        const response = await fetch(URL + 'appointments');
+        const data = await response.json();
+        if (data.length > 0) {
+          // Sort appointments by date in descending order
+          const sortedAppointments = data.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+          // Set the last appointment
+          setLastAppointment(sortedAppointments[0]);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    getLastAppointment();
+  }, []);
 
   return (
     <div>
@@ -21,14 +41,61 @@ function Homepage() {
             <div className="homepage-header">
               <h1 id='welcome-text'>Hello!</h1>
               <h1 id='user-name'>{user}</h1>
-              <h2 id='desctiption-text'>Welcome to Medical Appointment Scheduler</h2>
+              <h2 id='desctiption-text'>Welcome to MedLink, schedule your health today!</h2>
             </div>
           </td>
           <td id='right-message'>
             <div className="homepage-container">  
               <h1 id='title-container'>Your next appointment:</h1>
               <hr></hr>
+              {lastAppointment && (
+                <div>
+                  <table id='next-appointment-info'>
+                    <tr>
+                      <th>
+                        Patient Name:
+                      </th>
+                      <th>
+                        Doctor:
+                      </th>
+                      <th>
+                        Date:
+                      </th>
+                      <th>
+                        Time:
+                      </th>
+                      <th>
+                        Reason:
+                      </th>
+                    </tr>
+                    <tr>
+                      <td id='patient-col'>
+                        {lastAppointment.patientName}
+                      </td>
+                      <td id='doctor-col'>
+                        {lastAppointment.doctorName}
+                      </td>
+                      <td id='date-col'>
+                        {new Date(lastAppointment.dateTime).toLocaleDateString()}
+                      </td>
+                      <td id='time-col'>
+                        {new Date(lastAppointment.dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </td>
+                      <td id='reason-col'>
+                        {lastAppointment.reason}
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              )}
             </div>
+          </td>
+        </tr>
+        <tr>
+          <td colSpan="2" id='button-section'>
+            <button id='btn-cancel'>Cancel Appointment</button>
+            <button id='btn-new'>Book a New Appointment</button>
+            <button id='btn-viewAll'>View All My Appointments</button>
           </td>
         </tr>
       </table>
