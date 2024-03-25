@@ -1,7 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CreateAppointment.css'; 
 
 function CreateAppointment() {
+
+
+  const [appointments, setAppointments] = useState([]);
+  const URL = 'http://localhost:8000/';
+
+  useEffect(() => {
+    const getAppointments = async () => {
+      try {
+        const response = await fetch(URL + 'appointments');
+        const data = await response.json();
+        console.log(data);
+  
+        setAppointments(data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    getAppointments();
+  }, []);
+  
   const [formData, setFormData] = useState({
     doctor: '',
     appointmentDate: '',
@@ -9,9 +30,9 @@ function CreateAppointment() {
     reason: '',
   });
 
-  const doctors = ['Dr. Smith', 'Dr. Johnson', 'Dr. Williams']; // Example list of doctors
-  const appointmentTimes = ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
-
+  const doctors = appointments.map(appointment => appointment.doctorName);
+  const appointmentTimes = appointments.map(appointment => appointment.appointmentTime);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
