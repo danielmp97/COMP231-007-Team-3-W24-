@@ -31,8 +31,30 @@ function CreateAppointment() {
   });
 
   const doctors = appointments.map(appointment => appointment.doctorName);
-  const appointmentTimes = appointments.map(appointment => appointment.appointmentTime);
+
+  // Define the start and end hours
+  const startHour = 4; // 9:00 AM
+  const endHour = 19;  // 7:00 PM
+
+  // Generate all possible hours within the range
+  const allHours = [];
+  for (let hour = startHour; hour <= endHour; hour++) {
+    allHours.push(hour);
+  }
+
+  // Convert all hours to two-digit format with leading zeros
+  const allHoursFormatted = allHours.map(hour => {
+    const timeString = new Date(0, 0, 0, hour).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return timeString;  
+  });
+
+  // Filter out the hours that are in the appointmentTimes array
+  const appointmentTimes = appointments.map(appointment => 
+    new Date(appointment.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+  );
   
+  const availableTimes  = allHoursFormatted.filter(hour => !appointmentTimes.includes(hour));
+    
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -77,7 +99,7 @@ function CreateAppointment() {
             onChange={handleChange}
           >
             <option value="">Select a time</option>
-            {appointmentTimes.map((time, index) => (
+            {availableTimes.map((time, index) => (
               <option key={index} value={time}>
                 {time}
               </option>
