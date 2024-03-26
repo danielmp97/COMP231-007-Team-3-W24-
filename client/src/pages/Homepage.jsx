@@ -4,12 +4,12 @@ import { jwtDecode } from "jwt-decode";
 
 function Homepage() {
 
-  /*const getToken = () => {
+  const getToken = () => {
     const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
     return token;
   };
 
-  const user = jwtDecode(getToken()).name;*/
+  const user = jwtDecode(getToken()).name;
 
   return (
     <div>
