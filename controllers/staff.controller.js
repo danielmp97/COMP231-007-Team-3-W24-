@@ -10,6 +10,8 @@ async function createStaff(req, res) {
       return res.status(400).json({ error: 'Email already exists' });
     }
 
+    console.log(name,email,password,role)
+
     const newStaff = new Staff({
       name,
       email,

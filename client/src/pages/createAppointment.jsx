@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './CreateAppointment.css'; 
+import axios from 'axios'
 
 function CreateAppointment() {
   const [formData, setFormData] = useState({
@@ -10,10 +11,11 @@ function CreateAppointment() {
     patient: '', // New state variable for selected patient
   });
 
-  const doctors = ['Dr. Smith', 'Dr. Johnson', 'Dr. Williams']; // Example list of doctors
-  const appointmentTimes = ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
-  const patients = ['Patient A', 'Patient B', 'Patient C']; // Example list of patients
+  const [patient,setPatient]=useState()
 
+  const doctors = ['Dr. Smith', 'Dr. Johnson', 'Dr. Williams']; 
+  const appointmentTimes = ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+  const patients = ['Patient A', 'Patient B', 'Patient C']; 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -28,6 +30,33 @@ function CreateAppointment() {
     console.log(formData);
     // API calls to send the form data to the server
   };
+
+  const loadData = async() =>{
+    try{
+      
+      const response = await axios.get(`http://localhost:8000/patients`)
+      const patient = []
+
+      if(response.status==200){
+         console.log(response.data)
+
+         response.data.forEach((element)=>{
+             patient.push({name:element.name,id:element._id})
+         })
+
+        setPatient(patient)
+      }
+      
+
+    }
+    catch(err){
+      alert("Internal Server Error")
+    }
+  }
+
+  useEffect(()=>{
+   loadData()
+  },[])
 
   return (
     <div className="container">
@@ -59,9 +88,10 @@ function CreateAppointment() {
               onChange={handleChange}
             >
               <option value="">Select a patient</option>
-              {patients.map((patient, index) => (
-                <option key={index} value={patient}>
-                  {patient}
+              {patient.map((patient, index) => (
+                <option key={index} value={patient.id}>
+                  {console.log(patient)}
+                  {patient.name}
                 </option>
               ))}
             </select>
