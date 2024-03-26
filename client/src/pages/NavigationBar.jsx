@@ -5,8 +5,13 @@ import './NavigationBar.css';
 function NavigationBar() {
   const location = useLocation();
   const isLoginRoute = location.pathname === '/login';
+  const isForgotPasswordRoute = location.pathname === '/forgotpassword';
 
   if (isLoginRoute) {
+    return null; 
+  }
+
+  if (isForgotPasswordRoute) {
     return null; 
   }
 

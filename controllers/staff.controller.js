@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Staff = require('../models/staff.model');
 
 async function createStaff(req, res) {
@@ -78,5 +79,49 @@ async function deleteStaff(req, res) {
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+ 
 
-module.exports = { createStaff, getAllStaff, getStaffById, updateStaff, deleteStaff };
+async function changePassword(req, res) {
+  try {
+    const staffId = req.params.id;
+    const { oldPassword, newPassword } = req.body;
+    const staffMember = await Staff.findById(staffId);
+    if (!staffMember) {
+      return res.status(404).json({ error: 'Staff member not found' });
+    }
+    const isPasswordValid = await bcrypt.compare(oldPassword, staffMember.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+    if (isPasswordValid) {
+    staffMember.password = newPassword;
+    await staffMember.save();
+    res.status(200).json({ message: 'Password changed successfully' });
+    }
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+//still working on this function
+async function changeEmail(req, res) {
+  try {
+    const staffId = req.params.id;
+    const { newEmail } = req.body;
+    const existingStaff = await Staff.findOne
+    const staffMember = await Staff.findById(staffId);
+    if (!staffMember) {
+      return res.status(404).json({ error: 'Staff member not found' });
+    }
+    staffMember.email = newEmail;
+    await staffMember.save();
+    res.status(200).json({ message: 'Email changed successfully' });
+  }
+  catch (error) {
+    console.error('Error changing email:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+module.exports = { createStaff, getAllStaff, getStaffById, updateStaff, deleteStaff, changeEmail, changePassword};

@@ -4,6 +4,7 @@ const staffController = require('../controllers/staff.controller');
 
 // Define routes for staff members
 router.post('/staff', staffController.createStaff);
+router.put('/staff/:id', staffController.changePassword);
 router.get('/staff', staffController.getAllStaff);
 router.get('/staff/:id', staffController.getStaffById);
 router.put('/staff/:id', staffController.updateStaff);
