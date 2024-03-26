@@ -5,6 +5,7 @@ function CreateAppointment() {
 
 
   const [appointments, setAppointments] = useState([]);
+  const [doctorsDB, setDoctors] = useState([]);
   const URL = 'http://localhost:8000/';
 
   useEffect(() => {
@@ -22,15 +23,33 @@ function CreateAppointment() {
   
     getAppointments();
   }, []);
+
+  useEffect(() => {
+    const getDoctors = async () => {
+      try {
+        const response = await fetch(URL + 'doctors');
+        const data = await response.json();
+        console.log(data);
+  
+        setDoctors(data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    getDoctors();
+  }, []);
   
   const [formData, setFormData] = useState({
     doctor: '',
+    specialty: '',
     appointmentDate: '',
     appointmentTime: '',
     reason: '',
   });
 
   const doctors = appointments.map(appointment => appointment.doctorName);
+  const specialties = doctorsDB.map(doctorDB => doctorDB.specialty);
 
   // Define the start and end hours
   const startHour = 4; // 9:00 AM
@@ -74,6 +93,22 @@ function CreateAppointment() {
     <div className="container">
       <h2 className="header">Create Appointment</h2>
       <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="form-label">Select Specialty:</label>
+          <select
+            className="full-width" 
+            name="specialty"
+            value={formData.specialty}
+            onChange={handleChange}
+          >
+            <option value="">Select a specialty</option>
+            {specialties.map((specialty, index) => (
+              <option key={index} value={specialty}>
+                {specialty}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="form-group">
           <label className="form-label">Select Doctor:</label>
           <select
