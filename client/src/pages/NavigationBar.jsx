@@ -17,6 +17,9 @@ function NavigationBar() {
         <li><Link to="/my-appointments">My Appointments</Link></li>
         <li><Link to="/create-appointment">New Appointment</Link></li>
         <li><Link to="/my-profile">My Profile</Link></li>
+        <li><Link to="/users">Users</Link></li>
+
+        <li><Link to={'/createUsers'}> Create Users</Link></li>
         <li><button onClick={handleSignOut} className='signout-button'>Sign Out</button></li>
       </ul>
     </nav>
