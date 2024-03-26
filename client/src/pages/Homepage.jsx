@@ -9,10 +9,14 @@ function Homepage() {
 
   const getToken = () => {
     const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
+    const decodedToken = jwtDecode(token);
+    console.log(decodedToken);
     return token;
   };
 
   const user = jwtDecode(getToken()).name;
+  const userType = jwtDecode(getToken()).role;
+
 
   useEffect(() => {
     const getLastAppointment = async () => {
@@ -42,6 +46,7 @@ function Homepage() {
               <h1 id='welcome-text'>Hello!</h1>
               <h1 id='user-name'>{user}</h1>
               <h2 id='desctiption-text'>Welcome to MedLink, schedule your health today!</h2>
+              <h1 id='user-name'>{userType}</h1>
             </div>
           </td>
           <td id='right-message'>
