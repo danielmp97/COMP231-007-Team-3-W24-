@@ -7,12 +7,10 @@ function CreateAppointment() {
     appointmentDate: '',
     appointmentTime: '',
     reason: '',
-    patient: '', // New state variable for selected patient
   });
 
   const doctors = ['Dr. Smith', 'Dr. Johnson', 'Dr. Williams']; // Example list of doctors
   const appointmentTimes = ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
-  const patients = ['Patient A', 'Patient B', 'Patient C']; // Example list of patients
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +22,7 @@ function CreateAppointment() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logic to handle form submission, including patient data
+    // Logic to handle form submission
     console.log(formData);
     // API calls to send the form data to the server
   };
@@ -49,24 +47,6 @@ function CreateAppointment() {
             ))}
           </select>
         </div>
-        {formData.doctor && (
-          <div className="form-group">
-            <label className="form-label">Select Patient:</label>
-            <select
-              className="full-width patient-dropdown" // Apply additional class for styling
-              name="patient"
-              value={formData.patient}
-              onChange={handleChange}
-            >
-              <option value="">Select a patient</option>
-              {patients.map((patient, index) => (
-                <option key={index} value={patient}>
-                  {patient}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
         <div className="form-group">
           <label className="form-label">Select Time:</label>
           <select
