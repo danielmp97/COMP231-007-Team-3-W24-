@@ -8,8 +8,6 @@ import MyProfile from './pages/MyProfile';
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ChangeEmail from './pages/ChangeEmail';
-import Users from './pages/CreateUsers';
-import ViewUser from './pages/Users';
 function App() {
 
   return (
@@ -24,8 +22,6 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} /> 
           <Route path="/changeemail" element={<ChangeEmail />} />
-          <Route path='/createUsers' element={<Users/>}/>
-          <Route path="/users" element={<ViewUser/>}/>
         </Routes>
       </div>
     </Router>

@@ -22,7 +22,6 @@ const doctorRoutes = require('./routes/doctor.routes');
 const staffRoutes = require('./routes/staff.routes');
 const appointmentRoutes = require('./routes/appointment.routes');
 const authRoutes = require('./routes/auth.routes');
-const userRoute = require('./routes/user.routes')
 
 // Use routes
 app.use(express.json());
@@ -32,7 +31,6 @@ app.use(doctorRoutes);
 app.use(staffRoutes);
 app.use(appointmentRoutes);
 app.use(authRoutes);
-app.use(userRoute)
 
 // Define a simple route for testing
 app.get('/', (req, res) => {
