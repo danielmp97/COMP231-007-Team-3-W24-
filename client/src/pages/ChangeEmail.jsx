@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './ChangeEmail.css'; 
+import { FaArrowAltCircleRight } from 'react-icons/fa'; // Importing icon from react-icons library
 
 function ChangeEmail() {
   const [oldEmail, setOldEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
-  const [oldCode, setOldCode] = useState('');
-  const [newCode, setNewCode] = useState('');
+  const [confirmNewEmail, setConfirmNewEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [verificationInProgress, setVerificationInProgress] = useState(false);
+  const [verificationSuccess, setVerificationSuccess] = useState(false);
 
   // Function to handle submission of the form
   const handleSubmit = async (e) => {
@@ -16,13 +19,10 @@ function ChangeEmail() {
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(oldEmail) || !emailRegex.test(newEmail)) {
-      alert('Please enter valid email addresses');
+    if (!emailRegex.test(oldEmail) || !emailRegex.test(newEmail) || newEmail !== confirmNewEmail) {
+      alert('Please enter valid email addresses and ensure new emails match.');
       return;
     }
-
-    // Validate password complexity
-    // Add your password validation logic here
 
     // Submit the form
     setIsSubmitting(true);
@@ -45,11 +45,11 @@ function ChangeEmail() {
         // Reset form fields
         setOldEmail('');
         setNewEmail('');
-        setOldCode('');
-        setNewCode('');
+        setConfirmNewEmail('');
         setPassword('');
+        setVerificationSuccess(false); // Reset verification success state
       } else {
-        alert('Email change failed!');
+        alert('Successfully changed email!');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -59,16 +59,32 @@ function ChangeEmail() {
     }
   };
 
-  // Function to handle verification of the old code
-  const handleOldCodeVerification = () => {
-    // Implement code verification for old email
-    // You can add your verification logic here
+  // Function to handle changes in the old email and password inputs
+  const handleInputChanges = () => {
+    if (oldEmail.trim() && password.trim()) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
   };
 
-  // Function to handle verification of the new code
-  const handleNewCodeVerification = () => {
-    // Implement code verification for new email
+  // Function to handle verification of old email and password
+  const handleVerify = async () => {
+    // Implement code verification for old email and password
     // You can add your verification logic here
+    setVerificationInProgress(true); // Set verification in progress
+    try {
+      // Simulate API call delay for 3 seconds
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      // Assuming verification succeeds after 3 seconds
+      setVerificationSuccess(true);
+    } catch (error) {
+      console.error('Error:', error);
+      setVerificationSuccess(false);
+    } finally {
+      setVerificationInProgress(false); // Set verification complete
+    }
   };
 
   return (
@@ -82,35 +98,9 @@ function ChangeEmail() {
               type="email"
               id="oldEmail"
               value={oldEmail}
-              onChange={(e) => setOldEmail(e.target.value)}
+              onChange={(e) => {setOldEmail(e.target.value); handleInputChanges();}}
               required
             />
-            <input
-              type="text"
-              value={oldCode}
-              onChange={(e) => setOldCode(e.target.value)}
-              placeholder="Enter 4-digit code"
-              required
-            />
-            <button type="button" onClick={handleOldCodeVerification}>Verify</button>
-          </div>
-          <div>
-            <label htmlFor="newEmail">New Email:</label>
-            <input
-              type="email"
-              id="newEmail"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              required
-            />
-            <input
-              type="text"
-              value={newCode}
-              onChange={(e) => setNewCode(e.target.value)}
-              placeholder="Enter 4-digit code"
-              required
-            />
-            <button type="button" onClick={handleNewCodeVerification}>Verify</button>
           </div>
           <div>
             <label htmlFor="password">Password:</label>
@@ -118,16 +108,47 @@ function ChangeEmail() {
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {setPassword(e.target.value); handleInputChanges();}}
+              required
+            />
+            <button type="button" onClick={handleVerify}>Verify</button>
+          </div>
+          {verificationInProgress && <p className="verificationMessage">Verifying...</p>}
+          {verificationSuccess && !verificationInProgress && (
+            <p className="verificationMessage">Verification successful!</p>
+          )}
+          {verificationSuccess === false && !verificationInProgress && (
+            <p className="verificationMessage">Verification failed!</p>
+          )}
+          <p className="notification">Please enter a valid email format (e.g., example@example.com).</p>
+          <div>
+            <label htmlFor="newEmail">New Email:</label>
+            <input
+              type="email"
+              id="newEmail"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              disabled={!verificationSuccess || verificationInProgress}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="confirmNewEmail">Confirm New Email:</label>
+            <input
+              type="email"
+              id="confirmNewEmail"
+              value={confirmNewEmail}
+              onChange={(e) => setConfirmNewEmail(e.target.value)}
+              disabled={!verificationSuccess || verificationInProgress}
               required
             />
           </div>
           <br />
-          <div>
-            <button type="submit" disabled={isSubmitting}>Submit</button>
+          <div className="formButtons">
+            <button type="submit" disabled={isButtonDisabled || isSubmitting}><FaArrowAltCircleRight /> Submit</button>
           </div>
           <div>
-            <p>Go back to <Link to="/">home</Link>.</p>
+            <p>Go back to <Link to="/login">login</Link>.</p>
           </div>
         </form>
       </div>
