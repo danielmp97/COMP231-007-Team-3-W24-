@@ -154,7 +154,6 @@ function ViewUser() {
                 {userType === "Doctor" &&
                   doctor.map((data, index) => (
                     <tr key={index}>
-                      {console.log(data)}
                       <td>{data.name}</td>
                       <td>{data.email}</td>
                       <td>{data.phone}</td>
