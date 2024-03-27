@@ -9,14 +9,11 @@ function Homepage() {
 
   const getToken = () => {
     const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
-    const decodedToken = jwtDecode(token);
-    console.log(decodedToken);
     return token;
   };
 
   const user = jwtDecode(getToken()).name;
   const userType = jwtDecode(getToken()).role;
-
 
   useEffect(() => {
     const getLastAppointment = async () => {
@@ -40,6 +37,7 @@ function Homepage() {
   return (
     <div>
       <table id='home-message'>
+      <tbody>
         <tr>
           <td id='left-message'>
             <div className="homepage-header">
@@ -103,6 +101,7 @@ function Homepage() {
             <button id='btn-viewAll'>View All My Appointments</button>
           </td>
         </tr>
+      </tbody>
       </table>
       {/* <h2>Welcome to Medical Appointment Scheduler</h2>
               <h3>How it works?</h3>
