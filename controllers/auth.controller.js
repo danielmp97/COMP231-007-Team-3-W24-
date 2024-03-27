@@ -17,12 +17,17 @@ async function login(req, res) {
       case 'patient':
         user = await Patient.findOne({ email });
         break;
+
+        case 'front desk':
+          user = await Staff.findOne({ email });
+          break;
       case 'IT staff':
         user = await Staff.findOne({ email });
         break;
       default:
         return res.status(400).json({ message: 'Invalid role' });
     }
+    console.log(user)
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid email or password' });
@@ -33,6 +38,7 @@ async function login(req, res) {
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
+
 
     const token = generateAuthToken(user);
     res.json({ token });

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Users.css";
 import { get } from "mongoose";
 import axios from "axios";
+import Cookies from "universal-cookie";
+import { jwtDecode } from "jwt-decode";
 
 function ViewUser() {
   const [users, SetUsers] = useState([]);
@@ -10,10 +12,22 @@ function ViewUser() {
   const [patient, setPatient] = useState();
   const [doctor, setdoctor] = useState();
   const [userType, setUserType] = useState("Patient");
+  const [isStaff,setIsStaff]=useState(false)
   const URL = "http://localhost:8000/";
 
   useEffect(() => {
+    const cookies = new Cookies(null, { path: "/" });
+    const token = cookies.get("token");
+    if (token) {
+      const decoded = jwtDecode(token);
+      if (decoded.role === "IT staff" || decoded.role === "front desk") {
+        setIsStaff(true);
+      }
+    }
+
     getAllUserData();
+
+
   }, []);
 
   const getAllUserData = async () => {
@@ -41,7 +55,9 @@ function ViewUser() {
     <>
       {renderApp && (
         <div>
-          <div className="table-container">
+          {
+            isStaff ?(
+              <div className="table-container">
             <div className="tabContainer">
               <button
                 className={
@@ -161,6 +177,10 @@ function ViewUser() {
               </tbody>
             </table>
           </div>
+            ):(
+              <div className="container heading">Permission Not granted</div>
+            )
+          }
         </div>
       )}
     </>
