@@ -4,7 +4,7 @@ import './Login.css';
 import loginImage from '../assets/login-image.jpg';
 
 function Login() {
-  const URL = 'http://localhost:8000/';
+  const URL = 'http://localhost:5173/';
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('patient');
@@ -25,11 +25,24 @@ function Login() {
       });
 
       if (response.ok) {
+        // const data = await response.json();
+        // const token = data.token;
+        // document.cookie = `token=${token}; path=/`; 
+        // console.log('Login successful. Token:', token);
+        // navigate('/');
         const data = await response.json();
         const token = data.token;
         document.cookie = `token=${token}; path=/`; 
         console.log('Login successful. Token:', token);
-        navigate('/');
+        
+        // Redirect based on user role
+        if (userType === 'patient') {
+          navigate('/patients'); // Redirect to patient route
+        } else if (userType === 'doctor') {
+          navigate('/doctors'); // Redirect to doctor route
+        } else if (userType === 'staff') {
+          navigate('/staff'); // Redirect to staff route
+        }
       } else {
         console.error('Login failed');
       }

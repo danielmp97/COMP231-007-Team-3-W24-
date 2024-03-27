@@ -2,6 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 
+const express = require('express');
+const jwt = require('jsonwebtoken');
+
 require('dotenv').config({ path: '.env'});
 
 const express = require('express');
@@ -9,7 +12,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 app.use(cors());
-const PORT = process.env.PORT || 8000; 
+const PORT = process.env.PORT || 5173; 
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -37,7 +40,41 @@ app.get('/', (req, res) => {
   res.send('Server is running!');
 });
 
+app.post('/login', (req, res) => {
+  const user = { id: 123, username: 'example_user', role: 'admin' };
+  const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+  res.json({token});
+})
+
+app.get('/protected', (req, res) => {
+  const user = req.user;
+  if(user.role === 'admin'){
+    res.json({ message: 'Admin access granted'});
+  } else {
+    res.status(403).json({ message: 'Access denied' })
+  }
+})
+
+const authenticateUser = (req, res, next) =>{
+  const token = req.headers.authorization;
+  if(!token){
+    return res.status(401).json({ message: 'No token provided' });
+  }
+
+  try{
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error){
+    return res.status(403).json({ message: 'Invalid token' });
+  }
+};
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
+
+
