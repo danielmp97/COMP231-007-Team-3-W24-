@@ -8,5 +8,6 @@ router.get('/staff', staffController.getAllStaff);
 router.get('/staff/:id', staffController.getStaffById);
 router.put('/staff/:id', staffController.updateStaff);
 router.delete('/staff/:id', staffController.deleteStaff);
+// router.post('/users', userController.createUser)
 
 module.exports = router;

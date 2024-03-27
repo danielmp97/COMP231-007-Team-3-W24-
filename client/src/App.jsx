@@ -7,6 +7,7 @@ import CreateAppointment from './pages/createAppointment';
 import Appointments from './pages/Appointments';
 import MyProfile from './pages/MyProfile';
 import Login from './pages/Login';
+import UserCreation from './pages/UserCreation';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/my-appointments" element={<Appointments />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="login" element={<Login />} />
+          <Route path="/create-user" element={<UserCreation />} />
         </Routes>
       </div>
     </Router>

@@ -5,19 +5,27 @@ async function createStaff(req, res) {
     const { name, email, role, password } = req.body;
 
     // Check if email already exists
-    const existingStaff = await Staff.findOne({ email });
-    if (existingStaff) {
+    const existingUser = await User.findOne({ email });
+    
+    // const existingUser = await User.findOne({ email }); //added
+
+    if (existingUser) {
       return res.status(400).json({ error: 'Email already exists' });
     }
 
-    const newStaff = new Staff({
-      name,
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({ // Use User model for all users
+      username: name,
       email,
-      role,
-      password
+      password: hashedPassword,
+      role
     });
 
-    await newStaff.save();
+    await newUser.save();
+
+    console.log('New staff member created:', newStaff); // Log message after user creation
 
     res.status(201).json({ message: 'Staff member created successfully' });
   } catch (error) {
