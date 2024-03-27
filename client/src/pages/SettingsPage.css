@@ -1,0 +1,41 @@
+.settings-container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f0f4f8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.settings-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.notification-preferences {
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-preferences label {
+  margin-bottom: 10px;
+}
+
+.save-btn {
+  display: block;
+  width: 100%;
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #0056b3;
+}

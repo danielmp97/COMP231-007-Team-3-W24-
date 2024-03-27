@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom'; 
 import './NavigationBar.css';
-
+import { Settings } from '@material-ui/icons';
 function NavigationBar() {
   const location = useLocation();
   const isLoginRoute = location.pathname === '/login';
@@ -17,6 +17,7 @@ function NavigationBar() {
         <li><Link to="/my-appointments">My Appointments</Link></li>
         <li><Link to="/create-appointment">New Appointment</Link></li>
         <li><Link to="/my-profile">My Profile</Link></li>
+        <li><Link to="/settings">Setting</Link></li>
         <li><button onClick={handleSignOut} className='signout-button'>Sign Out</button></li>
       </ul>
     </nav>

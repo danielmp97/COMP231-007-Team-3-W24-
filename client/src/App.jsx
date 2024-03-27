@@ -8,6 +8,7 @@ import MyProfile from './pages/MyProfile';
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ChangeEmail from './pages/ChangeEmail';
+import SettingsPage from './pages/SettingsPage';
 function App() {
 
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} /> 
           <Route path="/changeemail" element={<ChangeEmail />} />
+          <Route path="/settings" element={<SettingsPage/>} />
         </Routes>
       </div>
     </Router>
