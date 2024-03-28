@@ -5,9 +5,9 @@ import loginImage from '../assets/login-image.jpg';
 
 function Login() {
   const URL = 'http://localhost:8000/';
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [userType, setUserType] = React.useState('patient');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [userType, setUserType] = useState('');
   const navigate = useNavigate(); 
 
   const handleLogin = async () => {
@@ -80,6 +80,7 @@ function Login() {
               value={userType}
               onChange={(e) => setUserType(e.target.value)}
             >
+              <option value="">Select User Type</option>
               <option value="doctor">Doctor</option>
               <option value="patient">Patient</option>
               <option value="IT staff">Staff</option>
