@@ -51,13 +51,16 @@ function NavigationBar() {
           <Link to="/my-profile">My Profile</Link>
         </li>
         {isStaff && (
+         <>
           <li>
             <Link to="viewUsers">Users</Link>
           </li>
-        )}
-        <li>
+          <li>
           <Link to="/createUser">Create user</Link>
         </li>
+         </>
+        )}
+        
 
         <li>
           <button onClick={handleSignOut} className="signout-button">
