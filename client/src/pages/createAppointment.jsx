@@ -60,6 +60,7 @@ function CreateAppointment() {
     appointmentDate: '',
     appointmentTime: '',
     reason: '',
+    patient: '', // New state variable for selected patient
   });
 
   const doctors = doctorsDB.map(doctor => ({
@@ -103,8 +104,7 @@ function CreateAppointment() {
   };
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
+    e.preventDefault();    
     try {
       const [time, period] = formData.appointmentTime.split(' ');
       const [hours, minutes] = time.split(':');
@@ -168,6 +168,24 @@ function CreateAppointment() {
             ))}
           </select>
         </div>
+        {formData.doctor && (
+          <div className="form-group">
+            <label className="form-label">Select Patient:</label>
+            <select
+              className="full-width patient-dropdown" // Apply additional class for styling
+              name="patient"
+              value={formData.patient}
+              onChange={handleChange}
+            >
+              <option value="">Select a patient</option>
+              {patients.map((patient, index) => (
+                <option key={index} value={patient}>
+                  {patient}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <div className="form-group">
           <label className="form-label">Select Time:</label>
           <select
