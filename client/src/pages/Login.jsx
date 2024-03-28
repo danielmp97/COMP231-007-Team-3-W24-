@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import Link and useNavigate from react-router-dom
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import './Login.css'; 
 import loginImage from '../assets/login-image.jpg';
 
@@ -36,15 +36,6 @@ function Login() {
     } catch (error) {
       console.error('Error:', error);
     }
-  };
-
-  const handleForgotPassword = () => {
-    // Handle forgot password action here
-    navigate('/forgotpassword'); // Navigate to the forgot password page
-  };
-  const handleChangeEmail = () => {
-    // Handle change email action here
-    navigate('/changeemail'); // Navigate to the change email page
   };
 
   return (
@@ -87,9 +78,7 @@ function Login() {
               <option value="front desk">Front Desk</option>
             </select>
           </div>
-          <div><button onClick={handleLogin}>Login</button></div>
-          <div><button onClick={handleForgotPassword}>Forgot Password</button></div> 
-          <div><div><button onClick={handleChangeEmail}>Change Email</button></div> </div>
+          <button onClick={handleLogin}>Login</button>
         </div>
       </div>
     </div>

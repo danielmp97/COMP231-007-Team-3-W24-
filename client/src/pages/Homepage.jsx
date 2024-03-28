@@ -11,6 +11,7 @@ function Homepage() {
     const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
     return token;
   };
+
   const user = jwtDecode(getToken()).name;
   const userType = jwtDecode(getToken()).role;
 
@@ -108,6 +109,7 @@ function Homepage() {
               <p>To start, click on the button "New Appointment" to create a new appointment with the doctor of your choice.
                   Fill out the form and you're all set!
               </p> */}
+
     </div>
   );
 }
