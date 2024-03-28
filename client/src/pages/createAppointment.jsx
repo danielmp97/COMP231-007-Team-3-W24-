@@ -1,156 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './CreateAppointment.css'; 
-import { jwtDecode } from "jwt-decode";
 
 function CreateAppointment() {
-
-  const getToken = () => {
-    const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
-    return token;
-  };
-
-  const userType = jwtDecode(getToken()).role;
-  //get the user id
-  const userId = jwtDecode(getToken()).userId;
-  //console.log(jwtDecode(getToken()));
-
-
-  const [appointments, setAppointments] = useState([]);
-  const [doctorsDB, setDoctors] = useState([]);
-  const [selectedDoctorId, setSelectedDoctorId] = useState('');
-  const URL = 'http://localhost:8000/';
-
-  //Get apointments list
-  useEffect(() => {
-    const getAppointments = async () => {
-      try {
-        const response = await fetch(URL + 'appointments');
-        const data = await response.json();
-        console.log(data);
-  
-        setAppointments(data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-  
-    getAppointments();
-  }, []);
-
-  //Get doctor list
-  useEffect(() => {
-    const getDoctors = async () => {
-      try {
-        const response = await fetch(URL + 'doctors');
-        const data = await response.json();
-        console.log(data);
-  
-        setDoctors(data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-  
-    getDoctors();
-  }, []);
-  
   const [formData, setFormData] = useState({
     doctor: '',
-    specialty: '',
     appointmentDate: '',
     appointmentTime: '',
     reason: '',
     patient: '', // New state variable for selected patient
   });
 
-  const doctors = doctorsDB.map(doctor => ({
-    id: doctor._id, // Assuming the ID field is named "_id"
-    name: doctor.name
-  }));
+  const doctors = ['Dr. Smith', 'Dr. Johnson', 'Dr. Williams']; // Example list of doctors
+  const appointmentTimes = ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+  const patients = ['Patient A', 'Patient B', 'Patient C']; // Example list of patients
 
-  // Define the start and end hours
-  const startHour = 4; // 9:00 AM
-  const endHour = 19;  // 7:00 PM
-
-  // Generate all possible hours within the range
-  const allHours = [];
-  for (let hour = startHour; hour <= endHour; hour++) {
-    allHours.push(hour);
-  }
-
-  // Convert all hours to two-digit format with leading zeros
-  const allHoursFormatted = allHours.map(hour => {
-    const timeString = new Date(0, 0, 0, hour).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    return timeString;  
-  });
-
-  // Filter out the hours that are in the appointmentTimes array
-  const appointmentTimes = appointments.map(appointment => 
-    new Date(appointment.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
-  );
-  
-  const availableTimes  = allHoursFormatted.filter(hour => !appointmentTimes.includes(hour));
-    
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
-    // If the name of the field being changed is "doctor", update the selected doctor's ID
-    if (name === 'doctor') {
-      setSelectedDoctorId(value);
-    }
   };
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();    
-    try {
-      const [time, period] = formData.appointmentTime.split(' ');
-      const [hours, minutes] = time.split(':');
-      // Convert time to 24-hour format
-      let hours24 = parseInt(hours, 10);
-      if (period.toLowerCase() === 'pm' && hours24 !== 12) {
-        hours24 += 12;
-      } else if (period.toLowerCase() === 'am' && hours24 === 12) {
-        hours24 = 0;
-      }
-  
-      // Create a new Date object with the appointment date and time
-      const appointmentDateTime = new Date(formData.appointmentDate);
-      appointmentDateTime.setHours(hours24, parseInt(minutes, 10), 0, 0);
-  
-      const appointmentData = {
-        doctor: selectedDoctorId,
-        patient: userId,
-        dateTime: appointmentDateTime, // Use the combined date and time object directly
-        reason: formData.reason,
-      };
-      console.log(appointmentData);
-  
-      const response = await fetch('http://localhost:8000/appointments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(appointmentData),
-      });
-  
-      if (response.ok) {
-        console.log('Appointment created successfully');
-      } else {
-        console.error('Failed to create appointment');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Logic to handle form submission, including patient data
+    console.log(formData);
+    // API calls to send the form data to the server
   };
-  
 
   return (
     <div className="container">
       <h2 className="header">Create Appointment</h2>
-      <h2 className="header">{userType}</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label className="form-label">Select Doctor:</label>
@@ -162,8 +43,8 @@ function CreateAppointment() {
           >
             <option value="">Select a doctor</option>
             {doctors.map((doctor, index) => (
-              <option key={index} value={doctor.id}>
-                {doctor.name}
+              <option key={index} value={doctor}>
+                {doctor}
               </option>
             ))}
           </select>
@@ -195,7 +76,7 @@ function CreateAppointment() {
             onChange={handleChange}
           >
             <option value="">Select a time</option>
-            {availableTimes.map((time, index) => (
+            {appointmentTimes.map((time, index) => (
               <option key={index} value={time}>
                 {time}
               </option>
