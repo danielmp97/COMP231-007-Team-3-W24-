@@ -43,4 +43,11 @@ nav {
     margin-top: -0.25%;
   }
 
+  .dropdown-select {
+    width: 120px; /* Adjust the width as needed */
+    padding: 5px; /* Add padding for better appearance */
+    font-size: 14px; /* Adjust font size as needed */
+  }
+  
+
   

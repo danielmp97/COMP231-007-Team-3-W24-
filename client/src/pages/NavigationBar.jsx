@@ -18,10 +18,29 @@ function NavigationBar() {
         <li><Link to="/create-appointment">New Appointment</Link></li>
         <li><Link to="/my-profile">My Profile</Link></li>
         <li><Link to="/create-user">Create User</Link></li>
+
+        <li className="dropdown">
+          <select onChange={handleDropdownChange} className="dropdown-select">
+            <option value="">Navigate to...</option>
+            <option value="patients">Patients</option>
+            <option value="doctors">Doctors</option>
+            <option value="staff">Staff</option>
+          </select>
+        </li>
+
+        
         <li><button onClick={handleSignOut} className='signout-button'>Sign Out</button></li>
+        
       </ul>
     </nav>
   );
+}
+
+function handleDropdownChange(event) {
+  const selectedOption = event.target.value;
+  if (selectedOption) {
+    window.location.href = `/${selectedOption}`;
+  }
 }
 
 function handleSignOut() {

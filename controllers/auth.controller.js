@@ -6,6 +6,7 @@ const Staff = require('../models/staff.model');
 const { generateAuthToken } = require('../utility'); 
 
 async function login(req, res) {
+  console.log("you are here...");
   const { email, password, role } = req.body;
 
   try {

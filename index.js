@@ -1,18 +1,13 @@
-const fs = require('fs');
-const path = require('path');
+const express = require('express');
 const cors = require('cors');
-
-const express = require('express');
 const jwt = require('jsonwebtoken');
-
-require('dotenv').config({ path: '.env'});
-
-const express = require('express');
 const mongoose = require('mongoose');
+
+require('dotenv').config({ path: '.env' });
 
 const app = express();
 app.use(cors());
-const PORT = process.env.PORT || 5173; 
+const PORT = process.env.PORT || 5173;
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -47,14 +42,14 @@ app.post('/login', (req, res) => {
   res.json({token});
 })
 
-app.get('/protected', (req, res) => {
+app.get('/protected', authenticateUser, (req, res) => {
   const user = req.user;
-  if(user.role === 'admin'){
-    res.json({ message: 'Admin access granted'});
+  if (user.role === 'admin') {
+    res.json({ message: 'Admin access granted' });
   } else {
-    res.status(403).json({ message: 'Access denied' })
+    res.status(403).json({ message: 'Access denied' });
   }
-})
+});
 
 const authenticateUser = (req, res, next) =>{
   const token = req.headers.authorization;

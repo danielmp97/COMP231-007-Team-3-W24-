@@ -25,6 +25,7 @@ function Login() {
       });
 
       if (response.ok) {
+        console.log("you are here...2");
         // const data = await response.json();
         // const token = data.token;
         // document.cookie = `token=${token}; path=/`; 
@@ -37,6 +38,7 @@ function Login() {
         
         // Redirect based on user role
         if (userType === 'patient') {
+          console.log("you are here...3");
           navigate('/patients'); // Redirect to patient route
         } else if (userType === 'doctor') {
           navigate('/doctors'); // Redirect to doctor route

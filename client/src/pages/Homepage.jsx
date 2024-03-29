@@ -1,29 +1,25 @@
-import React, { useState } from 'react';
-import './Homepage.css';
-import { jwtDecode } from "jwt-decode";
+import React, { useEffect } from 'react';
+import { login } from '../api'; // Import the login function from your API module
 
 function Homepage() {
+    useEffect(() => {
+        // Call the login function with default username and password
+        login('juanito', '123')
+            .then(response => {
+                // Handle successful login
+                console.log('Logged in successfully:', response);
+            })
+            .catch(error => {
+                // Handle login error
+                console.error('Error logging in with default user:', error);
+            });
+    }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
-  const getToken = () => {
-    const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
-    return token;
-  };
-
-  const user = jwtDecode(getToken()).name;
-
-  return (
-    <div>
-        <div className="homepage-container">  
-            <h1>Hello {user}</h1>
-            <h2>Welcome to Medical Appointment Scheduler</h2>
-            <h3>How it works?</h3>
-            <h3>This app allows you to easily schedule appointments with doctors.</h3>
-            <p>To start, click on the button "New Appointment" to create a new appointment with the doctor of your choice.
-                Fill out the form and you're all set!
-            </p>
+    return (
+        <div>
+            {/* Your homepage content goes here */}
         </div>
-    </div>
-  );
+    );
 }
 
 export default Homepage;
