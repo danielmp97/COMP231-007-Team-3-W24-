@@ -8,6 +8,8 @@ import MyProfile from './pages/MyProfile';
 import Login from './pages/Login';
 import ForgotPassword from './pages/ForgotPassword';
 import ChangeEmail from './pages/ChangeEmail';
+import NewPatient from './pages/NewPatient';
+
 function App() {
 
   return (
@@ -22,6 +24,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} /> 
           <Route path="/changeemail" element={<ChangeEmail />} />
+          <Route path="/newpatient" element={<NewPatient />} />
         </Routes>
       </div>
     </Router>
