@@ -73,12 +73,14 @@ async function updateAppointment(req, res) {
   try {
     const { role } = req.user; // Assuming role is passed through authentication middleware
     const appointmentId = req.params.id;
+    console.log(req.body)
     const updateData = req.body;
+
     
     if (role !== 'frontDesk' && role !== 'IT' && updateData.canceled) {
       return res.status(403).json({ error: 'Unauthorized to cancel appointment' });
     }
-    
+    console.log(updateData)
     const updatedAppointment = await Appointment.findByIdAndUpdate(appointmentId, updateData, { new: true });
     if (!updatedAppointment) {
       return res.status(404).json({ error: 'Appointment not found' });

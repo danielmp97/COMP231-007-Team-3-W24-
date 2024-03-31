@@ -27,6 +27,9 @@ const appointmentSchema = new mongoose.Schema({
   },
   doctorName: {
     type: String,
+  },
+  status:{
+    type:String
   }
 });
 
