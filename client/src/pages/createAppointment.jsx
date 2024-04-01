@@ -12,7 +12,6 @@ function CreateAppointment() {
   const userType = jwtDecode(getToken()).role;
   //get the user id
   const userId = jwtDecode(getToken()).userId;
-  //console.log(jwtDecode(getToken()));
 
 
   const [appointments, setAppointments] = useState([]);
