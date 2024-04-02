@@ -32,16 +32,16 @@ function Appointments() {
   const cancelAppointment = async(id) =>{
     setRenderApp(false)
    try{
-    const cookies = new Cookies(null, { path: "/" });
-    const token = cookies.get("token");
-console.log(token)
-const response = await axios.put(`http://localhost:8000/appointments/${id}`,{
-  status:"canceled"
-},{
-  headers:{
-    Authorization:`Bearer ${token}`
-  }
-})
+      const cookies = new Cookies(null, { path: "/" });
+      const token = cookies.get("token");
+      console.log(token)
+      const response = await axios.put(`http://localhost:8000/appointments/${id}`,{
+      status:"canceled"
+      },{
+      headers:{
+      Authorization:`Bearer ${token}`
+    }
+  })
 
 if(response.status==200){
   Swal.fire({
@@ -92,7 +92,7 @@ if(response.status==200){
     <td>{new Date(appointment.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
     <td>{appointment.reason}</td>
     <td>{appointment.status?appointment.status:'Pending'}</td>
-    <td><button onClick={(e)=>navigate(`/viewAppointment?id=${appointment._id}`)}>View</button> <button onClick={(e)=>{
+    <td><button onClick={(e)=>navigate(`/view-appointment?id=${appointment._id}`)}>View</button> <button onClick={(e)=>{
      
         Swal.fire({
           title: "Are you sure you want to cancel the appointment?",
