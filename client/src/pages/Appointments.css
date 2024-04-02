@@ -3,6 +3,9 @@
     width: 70%;
     margin: auto;
   }
+  .my-appointments{
+    color: #1f6f5f;
+  }
   
   .table-container h2 {
     margin-bottom: 20px;
@@ -12,31 +15,30 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    border: solid 2px #ffffff;
+    border: solid 2px #1f6f5f;
   }
   
   .table-container thead {
-    background-color: #1B1A55;
-    color: white; /* Set text color to white */
+    background-color: #BDECE3;
+    color: white; 
   }
   
   .table-container th, .table-container td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-    color: white; /* Set text color to white */
+    color: black; 
   }
   
-  /* Alternate row colors */
   .table-container tbody tr:nth-child(even) {
-    background-color: #535C91;
+    background-color: #E4F7F4;
   }
   
   .table-container tbody tr:nth-child(odd) {
-    background-color: #9290C3;
+    background-color: #E4F7F4;
   }
   
   .table-container tbody tr:hover {
-    background-color: #0a0688;
+    background-color: #95E1D3;
   }
   

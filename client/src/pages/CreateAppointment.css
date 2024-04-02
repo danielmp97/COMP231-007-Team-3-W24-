@@ -6,10 +6,10 @@ body {
     margin: auto;
     max-width: 35%;
     padding: 20px;
-    background-color: #1B1A55; 
-    color: white;
+    background-color: #E6E6E6; 
+    color: #1f6f5f;
     border-radius: 5%;
-    border-color: #535C91;
+    border-color: #6DD6C2;
     border-style: solid;
     border-width: 5px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -40,7 +40,7 @@ body {
   button[type="submit"] {
     width: 100%;
     padding: 10px;
-    background-color: #535C91;
+    background-color: #1f6f5f;
     color: white;
     border: none;
     border-radius: 5px;
@@ -48,7 +48,7 @@ body {
   }
   
   button[type="submit"]:hover {
-    background-color: #9290C3;
+    background-color: #6DD6C2;
   }
 
   select {

@@ -26,7 +26,7 @@ function Appointments() {
   return (
     <div>
         <div className="table-container">
-        <h1>My Appointments</h1>
+        <h1 className='my-appointments'>My Appointments</h1>
       <table>
         <thead>
           <tr>
