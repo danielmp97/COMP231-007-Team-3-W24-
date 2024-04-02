@@ -23,11 +23,11 @@ function App() {
           <Route path="/my-appointments" element={<Appointments />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} /> 
-          <Route path="/changeemail" element={<ChangeEmail />} />
-          <Route path='/viewAppointment' element={<ViewAppointment/>}/>
-          <Route path='/createUser' element={<Users/>}/>
-          <Route path='viewUsers' element={<ViewUser/>}/>
+          <Route path="/forgot-password" element={<ForgotPassword />} /> 
+          <Route path="/change-email" element={<ChangeEmail />} />
+          <Route path='/view-appointment' element={<ViewAppointment/>}/>
+          <Route path='/create-user' element={<Users/>}/>
+          <Route path='/view-users' element={<ViewUser/>}/>
         </Routes>
       </div>
     </Router>

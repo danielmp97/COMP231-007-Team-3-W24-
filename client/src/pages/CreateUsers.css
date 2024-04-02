@@ -1,6 +1,6 @@
 .header{
     font-size: 40px;
-    color:white
+    color: #1f1f1f;
 }
 
 .tabContainer{
@@ -16,7 +16,11 @@
     margin-right: 20px;
 }
 .tabButton.active{
-    background-color: slategray;
+    background-color: #6DD6C2;
+}
+
+.form-group {
+    background-color: #BDECE3;
 }
 
 
@@ -29,4 +33,28 @@ textarea {
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.create-user-container {
+    margin: auto;
+    max-width: 35%;
+    padding: 20px;
+    background-color: #BDECE3; 
+    color: black;
+    border-radius: 5%;
+    border-color: #6DD6C2;
+    border-style: solid;
+    border-width: 5px;
+    margin-bottom: 2%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.create-user-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #6DD6C2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
