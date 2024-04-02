@@ -1,0 +1,31 @@
+.container {
+    margin: auto;
+    max-width: 35%;
+    padding: 20px;
+    background-color: #1B1A55; 
+    color: white;
+    border-radius: 5%;
+    border-color: #535C91;
+    border-style: solid;
+    border-width: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  
+  .header {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .patient-info p {
+    margin-bottom: 10px;
+  }
+  
+  .patient-info p strong {
+    color: #9290C3; /* Change color to match the theme */
+  }
+  
+  .patient-info p:last-child {
+    margin-bottom: 0; /* Remove margin-bottom from the last paragraph */
+  }

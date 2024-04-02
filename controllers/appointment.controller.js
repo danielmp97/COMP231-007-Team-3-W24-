@@ -1,12 +1,10 @@
-const { get } = require('mongoose');
-const Appointment = require('../models/appointment.model');
+const { get } = require("mongoose");const Appointment = require('../models/appointment.model');
 const Doctor = require('../models/doctor.model');
 const Patient = require('../models/patient.model');
 
 async function createAppointment(req, res) {
   try {
     const { patient, doctor, dateTime, reason, notes } = req.body;
-    console.log(doctor);
     
     const { doctorName, patientName } = await getDoctorAndPatientName(doctor, patient);
     
@@ -16,8 +14,8 @@ async function createAppointment(req, res) {
       dateTime,
       reason,
       notes,
-      patientName: patientName,
-      doctorName: doctorName
+      patientName,
+      doctorName
     });
 
     await newAppointment.save();
@@ -33,12 +31,10 @@ async function getDoctorAndPatientName(doctorId, patientId) {
   try {
     const doctor = await Doctor.findById(doctorId);
     const patient = await Patient.findById(patientId);
-    console.log(doctorId);
     
     if (!doctor) {
       throw new Error('Doctor not found');
-    }
-    else if (!patient) {
+    } else if (!patient) {
       throw new Error('Patient not found');
     }
     
@@ -48,7 +44,6 @@ async function getDoctorAndPatientName(doctorId, patientId) {
     throw error; 
   }
 }
-  
 
 async function getAllAppointments(req, res) {
   try {
@@ -76,8 +71,16 @@ async function getAppointmentById(req, res) {
 
 async function updateAppointment(req, res) {
   try {
+    const { role } = req.user; // Assuming role is passed through authentication middleware
     const appointmentId = req.params.id;
+    console.log(req.body)
     const updateData = req.body;
+
+    
+    if (role !== 'frontDesk' && role !== 'IT' && updateData.canceled) {
+      return res.status(403).json({ error: 'Unauthorized to cancel appointment' });
+    }
+    console.log(updateData)
     const updatedAppointment = await Appointment.findByIdAndUpdate(appointmentId, updateData, { new: true });
     if (!updatedAppointment) {
       return res.status(404).json({ error: 'Appointment not found' });
@@ -91,7 +94,13 @@ async function updateAppointment(req, res) {
 
 async function deleteAppointment(req, res) {
   try {
+    const { role } = req.user; // Assuming role is passed through authentication middleware
     const appointmentId = req.params.id;
+    
+    if (role !== 'frontDesk' && role !== 'IT') {
+      return res.status(403).json({ error: 'Unauthorized to delete appointment' });
+    }
+    
     const deletedAppointment = await Appointment.findByIdAndDelete(appointmentId);
     if (!deletedAppointment) {
       return res.status(404).json({ error: 'Appointment not found' });

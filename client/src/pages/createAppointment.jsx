@@ -12,10 +12,11 @@ function CreateAppointment() {
   const userType = jwtDecode(getToken()).role;
   const userId = jwtDecode(getToken()).userId;
 
-
   const [appointments, setAppointments] = useState([]);
+  const [patientsDB, setPatients] = useState([]);
   const [doctorsDB, setDoctors] = useState([]);
   const [selectedDoctorId, setSelectedDoctorId] = useState('');
+  const [selectedPatientId, setselectedPatientId] = useState('');
   const URL = 'http://localhost:8000/';
 
   //Get apointments list
@@ -33,6 +34,23 @@ function CreateAppointment() {
     };
   
     getAppointments();
+  }, []);
+
+  //Get patient list
+  useEffect(() => {
+    const getPatients = async () => {
+      try {
+        const response = await fetch(URL + 'patients');
+        const data = await response.json();
+        console.log(data);
+  
+        setPatients(data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    getPatients();
   }, []);
 
   //Get doctor list
@@ -54,15 +72,20 @@ function CreateAppointment() {
   
   const [formData, setFormData] = useState({
     doctor: '',
-    specialty: '',
+    patient: '',
     appointmentDate: '',
     appointmentTime: '',
     reason: '',
   });
 
   const doctors = doctorsDB.map(doctor => ({
-    id: doctor._id, // Assuming the ID field is named "_id"
+    id: doctor._id, 
     name: doctor.name
+  }));
+
+  const patients = patientsDB.map(patient => ({
+    id: patient._id, 
+    name: patient.name
   }));
 
   // Define the start and end hours
@@ -97,6 +120,8 @@ function CreateAppointment() {
     // If the name of the field being changed is "doctor", update the selected doctor's ID
     if (name === 'doctor') {
       setSelectedDoctorId(value);
+    }else if(name === 'patient'){
+      setselectedPatientId(value);
     }
   };
   
@@ -104,6 +129,9 @@ function CreateAppointment() {
     e.preventDefault();
     
     try {
+      console.log("User type in handleSubmit:", userType);
+      console.log("User ID in handleSubmit:", userId);
+      console.log("Patient ID in handleSubmit:", selectedPatientId);
       const [time, period] = formData.appointmentTime.split(' ');
       const [hours, minutes] = time.split(':');
       // Convert time to 24-hour format
@@ -118,12 +146,25 @@ function CreateAppointment() {
       const appointmentDateTime = new Date(formData.appointmentDate);
       appointmentDateTime.setHours(hours24, parseInt(minutes, 10), 0, 0);
   
-      const appointmentData = {
-        doctor: selectedDoctorId,
-        patient: userId,
-        dateTime: appointmentDateTime, // Use the combined date and time object directly
-        reason: formData.reason,
-      };
+      let appointmentData;
+
+      if(userType === "patient"){
+        console.log("It is getting into the shit!")
+        appointmentData = {
+          doctor: selectedDoctorId,
+          patient: userId,
+          dateTime: appointmentDateTime, // Use the combined date and time object directly
+          reason: formData.reason,
+        };
+      }else if(userType === "doctor"){
+        appointmentData = {
+          doctor: userId,
+          patient: selectedPatientId,
+          dateTime: appointmentDateTime, // Use the combined date and time object directly
+          reason: formData.reason,
+        };
+      }
+
       console.log(appointmentData);
   
       const response = await fetch('http://localhost:8000/appointments', {
@@ -150,6 +191,7 @@ function CreateAppointment() {
       <h2 className="header">Create Appointment</h2>
       <h2 className="header">{userType}</h2>
       <form onSubmit={handleSubmit}>
+      {userType === 'patient' &&
         <div className="form-group">
           <label className="form-label">Select Doctor:</label>
           <select
@@ -166,6 +208,25 @@ function CreateAppointment() {
             ))}
           </select>
         </div>
+      }
+      {userType === 'doctor' &&
+        <div className="form-group">
+          <label className="form-label">Select Patient:</label>
+          <select
+            className="full-width" 
+            name="patient"
+            value={formData.patient}
+            onChange={handleChange}
+          >
+            <option value="">Select a patient</option>
+            {patients.map((patient, index) => (
+              <option key={index} value={patient.id}>
+                {patient.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      }
         <div className="form-group">
           <label className="form-label">Select Time:</label>
           <select

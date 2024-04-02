@@ -54,6 +54,7 @@ function Homepage() {
               {lastAppointment && (
                 <div>
                   <table id='next-appointment-info'>
+                    <tbody>
                     <tr>
                       <th>
                         Patient Name:
@@ -88,6 +89,7 @@ function Homepage() {
                         {lastAppointment.reason}
                       </td>
                     </tr>
+                    </tbody>
                   </table>
                 </div>
               )}
