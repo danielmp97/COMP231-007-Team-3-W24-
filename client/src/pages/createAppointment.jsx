@@ -149,7 +149,7 @@ function CreateAppointment() {
       let appointmentData;
 
       if(userType === "patient"){
-        console.log("It is getting into the shit!")
+        console.log("Working")
         appointmentData = {
           doctor: selectedDoctorId,
           patient: userId,
@@ -187,7 +187,7 @@ function CreateAppointment() {
   
 
   return (
-    <div className="container">
+    <div className="create-appointment-container">
       <h2 className="header">Create Appointment</h2>
       <h2 className="header">{userType}</h2>
       <form onSubmit={handleSubmit}>
@@ -260,7 +260,7 @@ function CreateAppointment() {
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Create Appointment</button>
+        <button type="submit" className='create-appointment-button'>Create Appointment</button>
       </form>
     </div>
   );

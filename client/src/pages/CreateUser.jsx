@@ -228,7 +228,7 @@ function Users() {
        </button>
      </div>
 
-     <div className="container">
+     <div className="create-user-container">
       
        {userType === "patient" && (
          <form onSubmit={handleSubmitUser}>
@@ -314,7 +314,7 @@ function Users() {
              />
            </div>
 
-           <button type="submit">Create User</button>
+           <button type="submit" className="create-user-button">Create User</button>
          </form>
        )}
 
@@ -374,7 +374,7 @@ function Users() {
              />
            </div>
 
-           <button type="submit">Create User</button>
+           <button type="submit" className="create-user-button">Create User</button>
          </form>
        )}
 
@@ -429,7 +429,7 @@ function Users() {
              </select>
            </div>
 
-           <button type="submit">Create User</button>
+           <button type="submit" className="create-user-button">Create User</button>
          </form>
        )}
      </div>
@@ -489,7 +489,7 @@ function Users() {
            onChange={handleChange}
          />
        </div>
-
+ 
        <button type="submit">Create User</button>
      </form> */}
    </div>
