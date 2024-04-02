@@ -1,78 +1,121 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
+import bcrypt from 'bcryptjs';
 import './ChangeEmail.css'; 
 
 function ChangeEmail() {
   const [oldEmail, setOldEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
-  const [oldCode, setOldCode] = useState('');
-  const [newCode, setNewCode] = useState('');
   const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const URL = 'http://localhost:8000/';
+  
+  const getToken = () => {
+    const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
+    return token;
+  };
 
-  // Function to handle submission of the form
+  const token = getToken();
+  const decodedToken = jwtDecode(token);
+  const userId = decodedToken.userId;
+  const role = decodedToken.role;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(oldEmail) || !emailRegex.test(newEmail)) {
-      alert('Please enter valid email addresses');
+  
+    if (newPassword !== confirmPassword) {
+      alert('New password and confirm password do not match');
       return;
     }
-
-    // Validate password complexity
-    // Add your password validation logic here
-
-    // Submit the form
-    setIsSubmitting(true);
+  
     try {
-      // Send a request to update the email in the database
-      const response = await fetch('/api/update-email', {
+      const response = await fetchUserData(role, userId);
+      if (!response) {
+        alert('User data not found');
+        return;
+      }
+  
+      const userPassword = response.password;
+  
+      // Check old password
+      const isOldPasswordValid = await bcrypt.compare(oldPassword, userPassword);
+      if (!isOldPasswordValid) {
+        alert('Invalid old password');
+        return;
+      }
+  
+      // Hash the new password
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+  
+      // Update the password
+      let updateUrl;
+      switch (role) {
+        case 'doctor':
+          updateUrl = `${URL}doctors/${userId}`;
+          break;
+        case 'patient':
+          updateUrl = `${URL}patients/${userId}`;
+          break;
+        case 'IT staff':
+        case 'front desk':
+          updateUrl = `${URL}staff/${userId}`;
+          break;
+        default:
+          alert('Invalid user role');
+          return;
+      }
+  
+      const updateResponse = await fetch(updateUrl, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          oldEmail,
-          newEmail,
-          password,
+          password: hashedNewPassword,
         }),
       });
-
-      if (response.ok) {
-        alert('Email change successful!');
+  
+      if (updateResponse.ok) {
+        alert('Password change successful!');
         // Reset form fields
-        setOldEmail('');
-        setNewEmail('');
-        setOldCode('');
-        setNewCode('');
-        setPassword('');
+        setOldPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        //log out
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        window.location.href = '/login';
       } else {
-        alert('Email change failed!');
+        alert('Password change failed!');
       }
     } catch (error) {
       console.error('Error:', error);
       alert('An unexpected error occurred.');
-    } finally {
-      setIsSubmitting(false);
+    }
+  };
+  
+
+  const fetchUserData = async (userType) => {
+    if (role == 'doctor'){
+      const response = await fetch(`${URL}${userType}s/${userId}`);
+      if (response.ok) {
+        return await response.json();
+      }
+    }
+    if (role == 'patient'){
+      const response = await fetch(`${URL}${userType}s/${userId}`);
+      if (response.ok) {
+        return await response.json();
+      }
+    }
+    if (role == 'IT staff' || role == 'front desk'){
+      const response = await fetch(`${URL}staff/${userId}`);
+      if (response.ok) {
+        return await response.json();
+      }
     }
   };
 
-  // Function to handle verification of the old code
-  const handleOldCodeVerification = () => {
-    // Implement code verification for old email
-    // You can add your verification logic here
-  };
-
-  // Function to handle verification of the new code
-  const handleNewCodeVerification = () => {
-    // Implement code verification for new email
-    // You can add your verification logic here
-  };
-
   return (
-    <div id='ChangeEmailMainBox'>
+    <div className='change-email-container'>
       <div id='ChangeEmailContent'>
         <form onSubmit={handleSubmit}>
           <div><h2>Change Email</h2></div>
@@ -85,14 +128,6 @@ function ChangeEmail() {
               onChange={(e) => setOldEmail(e.target.value)}
               required
             />
-            <input
-              type="text"
-              value={oldCode}
-              onChange={(e) => setOldCode(e.target.value)}
-              placeholder="Enter 4-digit code"
-              required
-            />
-            <button type="button" onClick={handleOldCodeVerification}>Verify</button>
           </div>
           <div>
             <label htmlFor="newEmail">New Email:</label>
@@ -103,14 +138,6 @@ function ChangeEmail() {
               onChange={(e) => setNewEmail(e.target.value)}
               required
             />
-            <input
-              type="text"
-              value={newCode}
-              onChange={(e) => setNewCode(e.target.value)}
-              placeholder="Enter 4-digit code"
-              required
-            />
-            <button type="button" onClick={handleNewCodeVerification}>Verify</button>
           </div>
           <div>
             <label htmlFor="password">Password:</label>
@@ -124,10 +151,7 @@ function ChangeEmail() {
           </div>
           <br />
           <div>
-            <button type="submit" disabled={isSubmitting}>Submit</button>
-          </div>
-          <div>
-            <p>Go back to <Link to="/">home</Link>.</p>
+            <button type="submit" id='change-email-button'>Change Email</button>
           </div>
         </form>
       </div>

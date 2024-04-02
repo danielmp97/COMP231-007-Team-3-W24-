@@ -90,4 +90,39 @@
   .medical-history a:hover {
     background-color: #0056b3;
   }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+  }
+
+  .change-email-button {
+    background-color: #1f6f5f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 35%;
+    margin-right: 10px;
+  }
+
+  .change-email-button:hover {
+    background-color: #6DD6C2;
+  }
+
+  .change-password-button{
+    background-color: #1f6f5f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 35%;
+  }
+
+  .change-password-button:hover {
+    background-color: #6DD6C2;
+  }
   

@@ -11,6 +11,8 @@ import ChangeEmail from './pages/ChangeEmail';
 import ViewAppointment from './pages/ViewAppointment';
 import Users from './pages/CreateUser';
 import ViewUser from './pages/Users';
+import ChangePassword from './pages/ChangePassword';
+
 function App() {
 
   return (
@@ -28,6 +30,7 @@ function App() {
           <Route path='/view-appointment' element={<ViewAppointment/>}/>
           <Route path='/create-user' element={<Users/>}/>
           <Route path='/view-users' element={<ViewUser/>}/>
+          <Route path='/change-password' element={<ChangePassword/>}/>
         </Routes>
       </div>
     </Router>
