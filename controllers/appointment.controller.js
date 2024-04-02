@@ -33,7 +33,7 @@ async function getDoctorAndPatientName(doctorId, patientId) {
   try {
     const doctor = await Doctor.findById(doctorId);
     const patient = await Patient.findById(patientId);
-    console.log(doctorId);
+    console.log("DoctorID:" + doctorId);
     
     if (!doctor) {
       throw new Error('Doctor not found');
