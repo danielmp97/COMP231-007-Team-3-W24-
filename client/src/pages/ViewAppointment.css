@@ -1,0 +1,18 @@
+.heading{
+    font-size: 30px;
+    padding-bottom: 20px;
+}
+
+.viewContainer ul{
+    display: flex;
+    flex-direction: column;
+}
+
+.viewContainer ul li{
+    padding-bottom: 10px;
+    font-size: 18px;
+}
+
+.appointmentData{
+    margin-bottom: 50px;
+}
