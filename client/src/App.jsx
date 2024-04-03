@@ -12,6 +12,9 @@ import ViewAppointment from './pages/ViewAppointment';
 import Users from './pages/CreateUser';
 import ViewUser from './pages/Users';
 import ChangePassword from './pages/ChangePassword';
+import ViewPatientInfo from './pages/ViewPatientInfo';
+import ViewDoctor from './pages/ViewDoctor';
+import ViewStaff from './pages/ViewStaff';
 
 function App() {
 
@@ -31,6 +34,9 @@ function App() {
           <Route path='/create-user' element={<Users/>}/>
           <Route path='/view-users' element={<ViewUser/>}/>
           <Route path='/change-password' element={<ChangePassword/>}/>
+          <Route path='/view-patient-info' element={<ViewPatientInfo/>}/>
+          <Route path='/view-doctor' element={<ViewDoctor/>}/>
+          <Route path='/view-staff' element={<ViewStaff/>}/>
         </Routes>
       </div>
     </Router>

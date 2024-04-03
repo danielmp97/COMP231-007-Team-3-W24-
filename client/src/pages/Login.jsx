@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import './Login.css'; 
 import loginImage from '../assets/login-image.jpg';
+import Swal from 'sweetalert2'
+
 
 function Login() {
   const URL = 'http://localhost:8000/';
@@ -28,10 +30,32 @@ function Login() {
         const data = await response.json();
         const token = data.token;
         document.cookie = `token=${token}; path=/`; 
-        console.log('Login successful. Token:', token);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.onmouseenter = Swal.stopTimer;
+            toast.onmouseleave = Swal.resumeTimer;
+          }
+        });
+        Toast.fire({
+          icon: "success",
+          title: "Signed in successfully"
+        });
+        
         navigate('/');
       } else {
         console.error('Login failed');
+        Swal.fire({
+          title: 'Login Failed',
+          text: 'Please check your credentials and try again.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        })
       }
     } catch (error) {
       console.error('Error:', error);

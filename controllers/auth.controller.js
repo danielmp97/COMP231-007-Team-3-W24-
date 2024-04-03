@@ -20,6 +20,9 @@ async function login(req, res) {
       case 'IT staff':
         user = await Staff.findOne({ email });
         break;
+      case 'front desk':
+        user = await Staff.findOne({ email });
+        break;
       default:
         return res.status(400).json({ message: 'Invalid role' });
     }

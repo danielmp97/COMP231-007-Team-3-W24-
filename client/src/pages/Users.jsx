@@ -51,6 +51,21 @@ function ViewUser() {
     }
   };
 
+  const redirectToPatientInfo = (userId) => {
+    const url = `/view-patient-info?userId=${userId}`;
+    window.location.href = url;
+  };
+
+  const redirectToDoctorInfo = (userId) => {
+    const url = `/view-doctor?userId=${userId}`;
+    window.location.href = url;
+  }; 
+
+  const redirectToStaffInfo = (userId) => {
+    const url = `/view-staff?userId=${userId}`;
+    window.location.href = url;
+  };
+
   return (
     <>
       {renderApp && (
@@ -104,6 +119,7 @@ function ViewUser() {
                     <th>Gender</th>
                     <th>Age</th>
                     <th>Notes</th>
+                    <th>Actions</th>
                   </tr>
                 )}
 
@@ -115,6 +131,7 @@ function ViewUser() {
                     <th>Phone</th>
 
                     <th>Speciality</th>
+                    <th>Actions</th>
                   </tr>
                 )}
 
@@ -126,6 +143,7 @@ function ViewUser() {
                     
 
                     <th>Role</th>
+                    <th>Actions</th>
                   </tr>
                 )}
               </thead>
@@ -148,6 +166,11 @@ function ViewUser() {
                       <td>{data.gender}</td>
                       <td>{data.age}</td>
                       <td>{data.notes}</td>
+                      <td>
+                        <button onClick={() => redirectToPatientInfo(data._id)} className="view-details-button">
+                          View Details
+                        </button>
+                      </td>
                     </tr>
                   ))}
 
@@ -157,22 +180,32 @@ function ViewUser() {
                       <td>{data.name}</td>
                       <td>{data.email}</td>
                       <td>{data.phone}</td>
-
                       <td>{data.specialty}</td>
+                      <td>
+                        <button className="view-details-button" onClick={() => redirectToDoctorInfo(data._id)}>
+                          View Details
+                        </button>
+                      </td>
                     </tr>
-                  ))}
+                  ))
+                }
 
-{userType === "Staff" &&
+                {userType === "Staff" &&
                   staff.map((data, index) => (
                     <tr key={index}>
-                     
                       <td>{data.name}</td>
                       <td>{data.email}</td>
                       <td>{data.role}</td>
-
-                     
+                      <td>
+                        <button className="view-details-button" onClick={() => redirectToStaffInfo(data._id)}>
+                          View Details
+                        </button>
+                      </td>
                     </tr>
-                  ))}
+                  ))
+                }
+
+
               </tbody>
             </table>
           </div>
