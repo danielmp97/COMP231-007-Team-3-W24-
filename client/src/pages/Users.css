@@ -68,3 +68,19 @@ body {
   .reason-textarea {
     height: 15vh;
   }
+
+  .view-details-button {
+    background-color: #1f6f5f;
+    display: flex;
+    margin: 10% auto 0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    justify-content: center;
+  }
+
+  .table-container{
+    margin-bottom: 4%;
+  }
