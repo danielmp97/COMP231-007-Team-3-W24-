@@ -87,7 +87,7 @@ function Users() {
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
-            redirect('/viewUsers')
+            redirect('/view-users')
           }
         });
       }
@@ -127,7 +127,7 @@ function Users() {
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
-            redirect('/viewUsers')
+            redirect('/view-users')
           }
         });
 
@@ -167,7 +167,7 @@ function Users() {
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
-            redirect('/viewUsers')
+            redirect('/view-users')
           }
         });
 
