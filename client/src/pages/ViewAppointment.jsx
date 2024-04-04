@@ -36,7 +36,7 @@ const ViewAppointment = () => {
   };
 
     loadData();
-  }, []);
+  }
   return (
     <>
       {renderApp && appointmentData && patient ? (
@@ -76,6 +76,6 @@ const ViewAppointment = () => {
       )}
     </>
   );
-};
+
 
 export default ViewAppointment;
