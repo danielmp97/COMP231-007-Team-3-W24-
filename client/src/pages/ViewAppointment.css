@@ -15,11 +15,23 @@
     color: black;
 }
 
-.appointmentData{
-    margin-bottom: 50px;
-}
-
 .viewContainer {
     background-color: #BDECE3;
     border-color: #6DD6C2;
+}
+
+.buttons-for-doctors {
+    background-color: #1f6f5f;
+    display: flex;
+    margin: 4% auto ;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.buttons-for-doctors:hover {
+    background-color: #6DD6C2;
 }

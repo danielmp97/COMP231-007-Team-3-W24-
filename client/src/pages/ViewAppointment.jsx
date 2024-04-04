@@ -8,6 +8,9 @@ const ViewAppointment = () => {
   const [appintmentData,setAppointmentData]=useState()
   const [patient,setPatient]=useState()
   const [renderApp, setRenderApp] = useState(false);
+  const [isDoctor, setIsDoctor] = useState(false);
+  const [appointmentNotes, setAppointmentNotes] = useState('');
+  const [patientNotes, setPatientNotes] = useState('');
   const appointmentId = searchParams.get("id");
 
 

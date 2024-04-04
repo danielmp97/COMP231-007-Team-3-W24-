@@ -140,36 +140,37 @@ function CreateAppointment() {
         hours24 = 0;
       }
   
+      // Convert the appointment date to UTC
       const appointmentDateTime = new Date(formData.appointmentDate);
+      appointmentDateTime.setDate(appointmentDateTime.getDate() + 1); // Add one day
       appointmentDateTime.setHours(hours24, parseInt(minutes, 10), 0, 0);
-  
+      const appointmentDateTimeUTC = appointmentDateTime.toISOString(); // Convert to UTC string
+    
       let appointmentData;
-
+  
       if(userType === "patient"){
-        console.log("Working")
         appointmentData = {
           doctor: selectedDoctorId,
           patient: userId,
-          dateTime: appointmentDateTime, 
+          dateTime: appointmentDateTimeUTC, // Use UTC date
           reason: formData.reason,
         };
-      }else if(userType === "doctor"){
+      } else if(userType === "doctor"){
         appointmentData = {
           doctor: userId,
           patient: selectedPatientId,
-          dateTime: appointmentDateTime, 
+          dateTime: appointmentDateTimeUTC, // Use UTC date
           reason: formData.reason,
         };
-      }
-      else if (userType === "IT staff" || userType === "front desk"){
+      } else if (userType === "IT staff" || userType === "front desk"){
         appointmentData = {
           doctor: selectedDoctorId,
           patient: selectedPatientId,
-          dateTime: appointmentDateTime, 
+          dateTime: appointmentDateTimeUTC, // Use UTC date
           reason: formData.reason,
         };
       }
-
+  
       console.log(appointmentData);
   
       const response = await fetch('http://localhost:8000/appointments', {
@@ -205,7 +206,7 @@ function CreateAppointment() {
     } catch (error) {
       console.error('Error:', error);
     }
-  };
+  };  
   
 
   return (
