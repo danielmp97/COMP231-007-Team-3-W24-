@@ -15,6 +15,7 @@ import ChangePassword from './pages/ChangePassword';
 import ViewPatientInfo from './pages/ViewPatientInfo';
 import ViewDoctor from './pages/ViewDoctor';
 import ViewStaff from './pages/ViewStaff';
+import LandingPage from './pages/LandingPage';
 
 function App() {
 
@@ -23,13 +24,13 @@ function App() {
       <div>
         <NavigationBar />
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/create-appointment" element={<CreateAppointment />} /> 
           <Route path="/my-appointments" element={<Appointments />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} /> 
-          <Route path="/change-email" element={<ChangeEmail />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} /> 
+          <Route path="/changeemail" element={<ChangeEmail />} />
           <Route path='/view-appointment' element={<ViewAppointment/>}/>
           <Route path='/create-user' element={<Users/>}/>
           <Route path='/view-users' element={<ViewUser/>}/>

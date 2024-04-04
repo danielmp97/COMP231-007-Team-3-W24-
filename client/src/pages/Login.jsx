@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // Import Link and useNavigate from react-router-dom
 import './Login.css'; 
 import loginImage from '../assets/login-image.jpg';
-import Swal from 'sweetalert2'
-
 
 function Login() {
   const URL = 'http://localhost:8000/';
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('');
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [userType, setUserType] = React.useState('patient');
   const navigate = useNavigate(); 
 
   const handleLogin = async () => {
@@ -30,36 +28,23 @@ function Login() {
         const data = await response.json();
         const token = data.token;
         document.cookie = `token=${token}; path=/`; 
-
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          }
-        });
-        Toast.fire({
-          icon: "success",
-          title: "Signed in successfully"
-        });
-        
+        console.log('Login successful. Token:', token);
         navigate('/');
       } else {
         console.error('Login failed');
-        Swal.fire({
-          title: 'Login Failed',
-          text: 'Please check your credentials and try again.',
-          icon: 'error',
-          confirmButtonText: 'OK'
-        })
       }
     } catch (error) {
       console.error('Error:', error);
     }
+  };
+
+  const handleForgotPassword = () => {
+    // Handle forgot password action here
+    navigate('/forgotpassword'); // Navigate to the forgot password page
+  };
+  const handleChangeEmail = () => {
+    // Handle change email action here
+    navigate('/changeemail'); // Navigate to the change email page
   };
 
   return (
@@ -95,14 +80,15 @@ function Login() {
               value={userType}
               onChange={(e) => setUserType(e.target.value)}
             >
-              <option value="">Select User Type</option>
               <option value="doctor">Doctor</option>
               <option value="patient">Patient</option>
               <option value="IT staff">Staff</option>
               <option value="front desk">Front Desk</option>
             </select>
           </div>
-          <button onClick={handleLogin}>Login</button>
+          <div><button onClick={handleLogin}>Login</button></div>
+          <div><button onClick={handleForgotPassword}>Forgot Password</button></div> 
+          <div><div><button onClick={handleChangeEmail}>Change Email</button></div> </div>
         </div>
       </div>
     </div>

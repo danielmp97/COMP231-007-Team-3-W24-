@@ -1,0 +1,165 @@
+/* LandingPage.css */
+
+.landing-page {
+    background-color: rgb(54, 119, 69); /* Change background color of the whole page to black */
+    color: rgba(8, 4, 4, 0.856); /* Set text color to white */
+}
+
+/* Header Section */
+
+.navigation-menu ul {
+    background-color: rgb(45, 161, 215);
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navigation-menu li {
+    margin-right: 20px;
+}
+
+.navigation-menu li:last-child {
+    margin-right: 0;
+}
+
+.logo img {
+    max-width: 140px;
+    height: auto;
+    border-radius: 15px;
+    padding: 5px;
+}
+
+/* Hero Section */
+.hero-section {
+    margin-top: 20px;
+    clear: both;
+}
+
+.hero-content {
+    text-align: center;
+}
+
+.picture-table {
+    width: 50%;
+    
+    float: right;
+    border-collapse: collapse;
+}
+
+/* Adjusted CSS for hero image */
+/* Adjusted CSS for hero image */
+.picture-cell img {
+    width: 100%; /* Make the image fill the entire width of its container */
+    height: 100%; /* Make the image fill the entire height of its container */
+    object-fit: cover; /* Ensure the image covers the entire space */
+    object-position: center; /* Center the image within its container */
+    border-radius: 15px; /* Add curved edges */
+}
+
+
+/* Responsive Image */
+.heroimage {
+    max-width: 240%;
+    max-height: 400px; /* Adjust maximum height as needed */
+    height: auto;
+}
+
+/* Features Section */
+.features-section {
+    margin-top: 20px;
+    text-align: center;
+    
+}
+
+.feature {
+    margin-bottom: 20px;
+}
+
+/* Testimonials Section */
+.testimonials-section {
+    margin-top: 20px;
+}
+
+.testimonial {
+    margin-bottom: 20px;
+}
+
+/* Pricing Section */
+.pricing-section {
+    margin-top: 20px;
+}
+
+.pricing-plans {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.plan {
+    margin-right: 20px;
+}
+
+.plan:last-child {
+    margin-right: 0;
+}
+
+/* FAQs Section */
+.faqs {
+    margin-top: 20px;
+}
+
+.faqs ul {
+    padding-left: 20px;
+}
+
+.faqs ul li {
+    margin-bottom: 10px;
+}
+
+/* Footer Section */
+.footer-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.social-media-links {
+    margin-top: 10px;
+}
+
+.social-media-links a {
+    margin-right: 10px;
+}
+
+/* Adjust second image size */
+.hero-section .picture-cell img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+/* Ensure all sections are stacked vertically */
+.hero-section,
+.features-section,
+.testimonials-section,
+.pricing-section,
+.faqs,
+.footer-section {
+    clear: both;
+}
+/* Add this CSS to your LandingPage.css file */
+
+#prompttext {
+    width: 50%; /* Take only 50% of the width */
+    float: left; /* Float the div to the left */
+    text-align: left; /* Align text to the left */
+    margin: 20px; /* Add margin as needed */
+}
+
+/* Adjust styles for the text inside #prompttext */
+#prompttext p {
+    color: white; /* Set text color to white */
+    font-size: 16px; /* Adjust font size as needed */
+    line-height: 1.5; /* Adjust line height as needed */
+}
