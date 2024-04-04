@@ -1,23 +1,19 @@
 /* LandingPage.css */
 
 .landing-page {
-    background-color: rgb(101, 174, 79); /* Change background color of the whole page to black */
+    background-color: rgb(54, 119, 69); /* Change background color of the whole page to black */
     color: rgba(8, 4, 4, 0.856); /* Set text color to white */
 }
 
 /* Header Section */
 
 .navigation-menu ul {
-    background-color: rgb(32, 163, 56);
+    background-color: rgb(45, 161, 215);
     display: flex;
     align-items: center;
     list-style: none;
     padding: 0;
     margin: 0;
-}
-#finalsocial{
-    background-color: black;
-    color: white;
 }
 
 .navigation-menu li {
@@ -32,7 +28,7 @@
     max-width: 140px;
     height: auto;
     border-radius: 15px;
-
+    padding: 5px;
 }
 
 /* Hero Section */
@@ -91,7 +87,9 @@
 }
 
 /* Pricing Section */
-
+.pricing-section {
+    margin-top: 20px;
+}
 
 .pricing-plans {
     display: flex;
@@ -108,18 +106,27 @@
 }
 
 /* FAQs Section */
+.faqs {
+    margin-top: 20px;
+}
 
+.faqs ul {
+    padding-left: 20px;
+}
 
-
-
+.faqs ul li {
+    margin-bottom: 10px;
+}
 
 /* Footer Section */
 .footer-section {
-   
+    margin-top: 20px;
     text-align: center;
 }
 
-
+.social-media-links {
+    margin-top: 10px;
+}
 
 .social-media-links a {
     margin-right: 10px;
