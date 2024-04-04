@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 
 function Homepage() {
 
-  const [lastAppointment, setLastAppointment] = useState(null);
+  const [nextAppointments, setNextAppointments] = useState([]);
   const URL = 'http://localhost:8000/'; //This constant needs to change when the application is deployed
 
   const getToken = () => {
@@ -16,22 +16,25 @@ function Homepage() {
   const userType = jwtDecode(getToken()).role;
 
   useEffect(() => {
-    const getLastAppointment = async () => {
+    const getNextAppointments = async () => {
       try {
         const response = await fetch(URL + 'appointments');
         const data = await response.json();
         if (data.length > 0) {
-          // Sort appointments by date in descending order
-          const sortedAppointments = data.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
-          // Set the last appointment
-          setLastAppointment(sortedAppointments[0]);
+          // Filter appointments for the current day
+          const currentDate = new Date().toLocaleDateString();
+          const filteredAppointments = data.filter(appointment => new Date(appointment.dateTime).toLocaleDateString() === currentDate);
+          // Sort appointments by time
+          const sortedAppointments = filteredAppointments.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+          // Set the next appointments
+          setNextAppointments(sortedAppointments);
         }
       } catch (error) {
         console.error('Error:', error);
       }
     };
 
-    getLastAppointment();
+    getNextAppointments();
   }, []);
 
   return (
@@ -51,7 +54,7 @@ function Homepage() {
             <div className="homepage-container">  
               <h1 id='title-container'>Your next appointment:</h1>
               <hr></hr>
-              {lastAppointment && (
+              {nextAppointments.length > 0 ? (
                 <div>
                   <table id='next-appointment-info'>
                     <tbody>
@@ -72,26 +75,30 @@ function Homepage() {
                         Reason:
                       </th>
                     </tr>
-                    <tr>
-                      <td id='patient-col'>
-                        {lastAppointment.patientName}
-                      </td>
-                      <td id='doctor-col'>
-                        {lastAppointment.doctorName}
-                      </td>
-                      <td id='date-col'>
-                        {new Date(lastAppointment.dateTime).toLocaleDateString()}
-                      </td>
-                      <td id='time-col'>
-                        {new Date(lastAppointment.dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </td>
-                      <td id='reason-col'>
-                        {lastAppointment.reason}
-                      </td>
-                    </tr>
+                    {nextAppointments.map((appointment, index) => (
+                      <tr key={index}>
+                        <td id='patient-col'>
+                          {appointment.patientName}
+                        </td>
+                        <td id='doctor-col'>
+                          {appointment.doctorName}
+                        </td>
+                        <td id='date-col'>
+                          {new Date(appointment.dateTime).toLocaleDateString()}
+                        </td>
+                        <td id='time-col'>
+                          {new Date(appointment.dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </td>
+                        <td id='reason-col'>
+                          {appointment.reason}
+                        </td>
+                      </tr>
+                    ))}
                     </tbody>
                   </table>
                 </div>
+              ) : (
+                <div>No appointments for today</div>
               )}
             </div>
           </td>
@@ -105,13 +112,6 @@ function Homepage() {
         </tr>
       </tbody>
       </table>
-      {/* <h2>Welcome to Medical Appointment Scheduler</h2>
-              <h3>How it works?</h3>
-              <h3>This app allows you to easily schedule appointments with doctors.</h3>
-              <p>To start, click on the button "New Appointment" to create a new appointment with the doctor of your choice.
-                  Fill out the form and you're all set!
-              </p> */}
-
     </div>
   );
 }
