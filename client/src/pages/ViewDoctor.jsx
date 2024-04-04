@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ViewDoctor.css'; 
 import Swal from 'sweetalert2';
+import { jwtDecode } from "jwt-decode";
+import Cookies from "universal-cookie";
 
 function ViewDoctor() {
   const [doctor, setDoctor] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [role, setRole]=useState();
+
   const URL = 'http://localhost:8000/';
 
   useEffect(() => {
+    const cookies = new Cookies(null, { path: "/" });
+    const token = cookies.get("token");
+    if (token) {
+      const decoded = jwtDecode(token);
+      if (decoded.role === "IT staff" || decoded.role === "front desk") {
+        setRole(decoded.role);
+      }
+    }
+
     const searchParams = new URLSearchParams(window.location.search);
     const userId = searchParams.get('userId');
 
@@ -64,9 +77,9 @@ function ViewDoctor() {
           <p><strong>Email:</strong> {doctor.email}</p>
           <p><strong>Phone:</strong> {doctor.phone}</p>
           <p><strong>Specialty:</strong> {doctor.specialty}</p>
-          <button className='delete-doctor-button' onClick={deleteDoctor}>
+          {(role === 'IT staff') && <button className='delete-doctor-button' onClick={deleteDoctor}>
             Delete Doctor
-          </button>
+          </button>}
         </div>
       ) : (
         <div>No doctor found</div>
