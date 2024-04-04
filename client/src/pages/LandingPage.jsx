@@ -14,17 +14,17 @@ const LandingPage = () => {
                 <nav className="navigation-menu">
                     <ul>
                         <li><div id='logo'><img src={logo} alt="logo" className="logo" /></div></li>
-                        <li><a href="#learn">Learn</a></li>
-                        <li><a href="#integrations">Integrations</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#learn"><b>Learn</b></a></li>
+                        <li><a href="#integrations"><b>Integrations</b></a></li>
+                        <li><a href="#features"><b>Features</b></a></li>
+                        <li><a href="#pricing"><b>Pricing</b></a></li>
+                        <li><a href="#contact"><b>Contact</b></a></li>
                         <li><a href="tel:+14376730636">+14376730636</a></li>
                         <li>
                             {/* Link to login page */}
-                            <Link to="/login" className="login-btn">Login</Link>
+                            <Link to="/login" className="login-btn"><b>Login</b></Link>
                         </li>
-                        <li><button className="start-free-btn">Start FREE</button></li>
+                        <li><button className="start-free-btn"><b>Start FREE</b></button></li>
                     </ul>
                 </nav>
             </div>
@@ -39,7 +39,8 @@ const LandingPage = () => {
                     <br />
                     <br />
                     <br /><br /><br /><br /><br />
-                    <img src={appointment} alt="appointment" className="appointment" />
+                    <img src={heroimage} alt="heroimage" className="heroimage" />
+                   
                 </div>
                 {/* Hero Image */}
                 <div className="picture-table">
@@ -47,7 +48,7 @@ const LandingPage = () => {
                         <tbody>
                             <tr>
                                 <td className="picture-cell">
-                                    <img src={heroimage} alt="heroimage" className="heroimage" />
+                                <img src={appointment} alt="appointment" className="appointment" />
                                 </td>
                             </tr>
                         </tbody>
@@ -64,8 +65,7 @@ const LandingPage = () => {
                 </div>
                 {/* Feature 2 */}
                 <div className="feature">
-                    <h2>Spotlight your brand.</h2>
-                    <p>Brand experience hits a whole new level with a custom Booking Page. Show why your business stands apart and enable people to self-book at their convenience.</p>
+                    
                 </div>
                 
             </div>
@@ -74,14 +74,12 @@ const LandingPage = () => {
             <div className="testimonials-section">
                 {/* Testimonial 1 */}
                 <div className="testimonial">
-                    <p>“I can be literally Anywhere and schedule people.” - Aaron Goulding, South Coast Pet Dental</p>
+                    <p><h4>“I can be literally Anywhere and schedule people.” - Mr Bean, MI 6</h4></p>
                 </div>
                 {/* Testimonial 2 */}
-                <div className="testimonial">
-                    <p>“MedLink is a hidden gem. We are so, so happy we found it.” - Laura Gomez, TDC Digital Agency</p>
-                </div>
-                {/* Add more testimonials as needed */}
+                
             </div>
+            <hr />
 
             {/* Pricing Section */}
             <div className="pricing-section">
@@ -89,26 +87,22 @@ const LandingPage = () => {
                 <div className="pricing-plans">
                     <div className="plan">
                         <h2>Free</h2>
-                        <p>Up to 4 users</p>
-                        <p>$0 user / month</p>
-                        <button className="start-free-btn">Start FREE</button>
+                        <p><h3>Up to 3 users!!</h3></p>
+                        <p><h2>$0 /user</h2> </p>
+                        <button className="start-free-btn"><h1>Start FREE</h1></button>
                     </div>
                     {/* Add more pricing plans as needed */}
                 </div>
                 {/* FAQs */}
                 <div className="faqs">
-                    <h2>FAQs</h2>
-                    <ul>
-                        <li>What’s an online Booking Page?</li>
-                        <li>What’s the difference between my MedLink calendar and Booking Page?</li>
-                        {/* Add more FAQs as needed */}
-                    </ul>
+                    
                 </div>
             </div>
+            <hr />
 
             {/* Footer Section */}
-            <div className="footer-section">
-                <p>&copy; MedLink Appointments</p>
+            <div id='finalsocial' className="footer-section">
+                <p>&copy; MedLink Appointments     all rights reserved</p>
                 <div className="social-media-links">
                     <a href="#"><img src="facebook-logo.png" alt="Facebook Logo" /></a>
                     <a href="#"><img src="instagram-logo.png" alt="Instagram Logo" /></a>
