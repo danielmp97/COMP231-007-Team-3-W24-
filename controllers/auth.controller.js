@@ -7,9 +7,11 @@ const { generateAuthToken } = require('../utility');
 
 async function login(req, res) {
   const { email, password, role } = req.body;
+  console.log(role)
 
   try {
     let user;
+    
     switch (role) {
       case 'doctor':
         user = await Doctor.findOne({ email });
@@ -30,11 +32,11 @@ async function login(req, res) {
 
     // Check password
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
+    if (password != user.password) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    const token = generateAuthToken({ ...user.toObject(), role });
+    const token = generateAuthToken({ ...user.toObject()});
     res.json({ token });
   } catch (error) {
     console.error(error);

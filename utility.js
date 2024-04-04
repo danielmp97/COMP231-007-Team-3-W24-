@@ -7,6 +7,7 @@ function generateAuthToken(user) {
     role: user.role,
     name: user.name
   };
+  console.log(payload)
   return jwt.sign(payload, secretKey, { expiresIn: '1h' }); 
 }
 

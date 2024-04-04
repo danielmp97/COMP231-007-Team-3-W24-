@@ -1,61 +1,85 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import  './ViewAppointment.css'
+import "./ViewAppointment.css";
 
 const ViewAppointment = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [appintmentData,setAppointmentData]=useState()
-  const [patient,setPatient]=useState()
+  const [appointmentData, setAppointmentData] = useState(null);
+  const [patient, setPatient] = useState(null);
+  const [notes, setNotes] = useState('');
   const [renderApp, setRenderApp] = useState(false);
   const appointmentId = searchParams.get("id");
 
-
-  console.log(appointmentId);
-  const loadData = async () => {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/appointments/${appointmentId}`
-      );
-      console.log(response);
-
-      if (response.status === 200) {
-       setAppointmentData(response?.data);
-        const patientData = await axios.get(
-          `http://localhost:8000/patients/${response?.data?.patient}`
-        );
-
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/appointments/${appointmentId}`);
         if (response.status === 200) {
+          setAppointmentData(response?.data);
+          const patientData = await axios.get(`http://localhost:8000/patients/${response?.data?.patient}`);
+          if (patientData.status === 200) {
+            setPatient(patientData.data);
+            setNotes(response.data.notes || ''); // Set notes from response or empty string
+            setRenderApp(true);
+          }
         }
-        setPatient(patientData.data);
-        setRenderApp(true);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    loadData();
+  }, [appointmentId]);
+
+  const handleNotesChange = (e) => {
+    setNotes(e.target.value);
+  };
+
+  const saveNotes = async () => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8000/appointments/${appointmentId}`,
+        { notes: notes }
+      );
+      if (response.status === 200) {
+        console.log("Notes saved successfully");
       }
     } catch (err) {
-      console.log(err);
+      console.error("Error saving notes:", err);
     }
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
   return (
     <>
-      {renderApp ? (
+      {renderApp && appointmentData && patient ? (
         <div className="viewContainer container">
-            {console.log(patient)}
           <div className={`heading`}>Appointment Details</div>
 
           <ul className={`appointmentData`}>
-            <li>Appointment Date: {new Date(appintmentData.dateTime).toLocaleDateString()}</li>
-            <li>Appointment Time:
-              {new Date(appintmentData.dateTime).toLocaleTimeString([], {
+            <li>
+              Appointment Date:{" "}
+              {new Date(appointmentData.dateTime).toLocaleDateString()}
+            </li>
+            <li>
+              Appointment Time:{" "}
+              {new Date(appointmentData.dateTime).toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
             </li>
-            <li>Reason: {appintmentData.reason}</li>
-            <li>Notes: {appintmentData.notes}</li>
-            <li>Doctor Name: {appintmentData.doctorName}</li>
+            <li>Reason: {appointmentData.reason}</li>
+            <li>
+              Notes:{" "}
+              <textarea
+                value={notes}
+                onChange={handleNotesChange}
+                rows={4}
+                cols={50}
+              />
+              <button onClick={saveNotes}>Save Notes</button>
+            </li>
+            <li>Doctor Name: {appointmentData.doctorName}</li>
           </ul>
 
           <div className={`heading`}>Patient Details</div>
@@ -66,19 +90,17 @@ const ViewAppointment = () => {
             <li>Gender: {patient.gender}</li>
             <li>Age: {patient.age}</li>
             <li>Notes: {patient.notes}</li>
-           
           </ul>
-          
         </div>
-      ):(
-
+      ) : (
         <div className="container">
-            <div className="heading">Loading ...</div>
+          <div className="heading">Loading ...</div>
         </div>
-      )
-      }
+      )}
     </>
   );
 };
 
 export default ViewAppointment;
+  
+

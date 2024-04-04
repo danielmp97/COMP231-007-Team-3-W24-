@@ -18,14 +18,13 @@ function Appointments() {
         setRenderApp(false)
         const response = await fetch(URL + 'appointments');
         const data = await response.json();
-        console.log(data);
         setAppointments(data);
         setRenderApp(true)
       } catch (error) {
         console.error('Error:', error);
       }
     };
-  
+
     getAppointments();
   }, []);
 
@@ -49,6 +48,9 @@ if(response.status==200){
     icon:"success",
     confirmButtonText:"Ok"
   })
+  setAppointments(prevAppointments =>
+    prevAppointments.filter(appointment => appointment._id !== id)
+  );
   setRenderApp(true)
 }
    }
@@ -61,7 +63,7 @@ if(response.status==200){
     })
    }
   }
-  
+
 
   return (
   <>
@@ -85,7 +87,7 @@ if(response.status==200){
       <tbody>
 {appointments.map((appointment, index) => (
   <tr key={index}>
-    {console.log(appointment)}
+    {/* {console.log(appointment)} */}
     <td>{appointment.patientName}</td>
     <td>{appointment.doctorName}</td>
     <td>{new Date(appointment.dateTime).toLocaleDateString()}</td>
@@ -93,7 +95,7 @@ if(response.status==200){
     <td>{appointment.reason}</td>
     <td>{appointment.status?appointment.status:'Pending'}</td>
     <td><button onClick={(e)=>navigate(`/view-appointment?id=${appointment._id}`)}>View</button> <button onClick={(e)=>{
-     
+
         Swal.fire({
           title: "Are you sure you want to cancel the appointment?",
           text:"This action cannot be reverted",
@@ -101,7 +103,7 @@ if(response.status==200){
           confirmButtonText: "Yes",
           cancelButtonText:"No",
           showCancelButton:true
-         
+
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
@@ -109,9 +111,9 @@ if(response.status==200){
           }
         });
 
-      
+
     }
-    
+
     }>Cancel</button></td>
   </tr>
 ))}
