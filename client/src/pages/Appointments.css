@@ -7,6 +7,11 @@
     color: #1f6f5f;
   }
   
+  .my-appointment-header{
+    text-align: center;
+  }
+
+
   .table-container h2 {
     margin-bottom: 20px;
   }
@@ -40,5 +45,21 @@
   
   .table-container tbody tr:hover {
     background-color: #95E1D3;
+  }
+
+  .text-white {
+    text-align: center;
+    margin: 10% auto;
+    font-size: 3rem;
+  }
+
+  .my-appointment-buttons {
+    background-color: #1f6f5f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    margin : 8% auto;
   }
   

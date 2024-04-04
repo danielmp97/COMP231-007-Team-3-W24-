@@ -19,19 +19,19 @@ function NavigationBar() {
 
   const isLoginRoute = location.pathname === '/login';
 
-  if (isLoginRoute) {
-    return null; 
+  if (isLoginRoute || !token) {
+    return null; // Hide NavigationBar for login route or if there is no token
   }
 
   const handleSignOut = () => {
-    //clear cookie
+    // Clear cookie
     document.cookie = 'token=; expires=' + new Date().toUTCString() + '; path=/;';
     // Redirect the user to the login page after signing out
     navigate('/login');
   };
 
   const renderAdditionalButtons = () => {
-    if (userType === "IT staff") {
+    if (userType === "IT staff" || userType === "front desk") {
       return (
         <>
           <li><Link to="/view-users">User List</Link></li>
@@ -48,7 +48,8 @@ function NavigationBar() {
       <div className="nav-options">
         <ul>
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/my-appointments">My Appointments</Link></li>
+          {(userType === "patient" || userType === "doctor") && <li><Link to="/my-appointments">My Appointments</Link></li>}
+          {(userType === "IT staff" || userType === "front desk") && <li><Link to="/my-appointments">All Appointments</Link></li>}
           <li><Link to="/create-appointment">New Appointment</Link></li>
           <li><Link to="/my-profile">My Profile</Link></li>
           {renderAdditionalButtons()}

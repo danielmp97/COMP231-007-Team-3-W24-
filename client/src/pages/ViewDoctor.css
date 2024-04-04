@@ -1,0 +1,15 @@
+.delete-doctor-button {
+    background-color: red;
+    display: flex;
+    margin: 10% auto 0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.delete-doctor-button:hover {
+    background-color: #a41616;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './CreateAppointment.css'; 
 import { jwtDecode } from "jwt-decode";
+import Swal from 'sweetalert2';
 
 function CreateAppointment() {
 
@@ -129,9 +130,6 @@ function CreateAppointment() {
     e.preventDefault();
     
     try {
-      console.log("User type in handleSubmit:", userType);
-      console.log("User ID in handleSubmit:", userId);
-      console.log("Patient ID in handleSubmit:", selectedPatientId);
       const [time, period] = formData.appointmentTime.split(' ');
       const [hours, minutes] = time.split(':');
       // Convert time to 24-hour format
@@ -142,7 +140,6 @@ function CreateAppointment() {
         hours24 = 0;
       }
   
-      // Create a new Date object with the appointment date and time
       const appointmentDateTime = new Date(formData.appointmentDate);
       appointmentDateTime.setHours(hours24, parseInt(minutes, 10), 0, 0);
   
@@ -153,14 +150,22 @@ function CreateAppointment() {
         appointmentData = {
           doctor: selectedDoctorId,
           patient: userId,
-          dateTime: appointmentDateTime, // Use the combined date and time object directly
+          dateTime: appointmentDateTime, 
           reason: formData.reason,
         };
       }else if(userType === "doctor"){
         appointmentData = {
           doctor: userId,
           patient: selectedPatientId,
-          dateTime: appointmentDateTime, // Use the combined date and time object directly
+          dateTime: appointmentDateTime, 
+          reason: formData.reason,
+        };
+      }
+      else if (userType === "IT staff" || userType === "front desk"){
+        appointmentData = {
+          doctor: selectedDoctorId,
+          patient: selectedPatientId,
+          dateTime: appointmentDateTime, 
           reason: formData.reason,
         };
       }
@@ -176,9 +181,26 @@ function CreateAppointment() {
       });
   
       if (response.ok) {
-        console.log('Appointment created successfully');
+        Swal.fire({
+          icon: 'success',
+          title: 'Appointment created successfully!',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        setFormData({
+          doctor: '',
+          patient: '',
+          appointmentDate: '',
+          appointmentTime: '',
+          reason: '',
+        });
       } else {
-        console.error('Failed to create appointment');
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed to create appointment',
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     } catch (error) {
       console.error('Error:', error);
@@ -191,7 +213,7 @@ function CreateAppointment() {
       <h2 className="header">Create Appointment</h2>
       <h2 className="header">{userType}</h2>
       <form onSubmit={handleSubmit}>
-      {userType === 'patient' &&
+      {(userType === 'patient' || userType === 'IT staff' || userType === 'front desk') &&
         <div className="form-group">
           <label className="form-label">Select Doctor:</label>
           <select
@@ -209,7 +231,7 @@ function CreateAppointment() {
           </select>
         </div>
       }
-      {userType === 'doctor' &&
+      {(userType === 'doctor' || userType === 'IT staff' || userType === 'front desk') &&
         <div className="form-group">
           <label className="form-label">Select Patient:</label>
           <select
