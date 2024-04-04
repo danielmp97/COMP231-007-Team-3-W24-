@@ -77,7 +77,7 @@ async function updateAppointment(req, res) {
     const updateData = req.body;
 
     
-    if (role !== 'frontDesk' && role !== 'IT' && updateData.canceled) {
+    if (role !== 'front desk' && role !== 'IT staff' && updateData.canceled) {
       return res.status(403).json({ error: 'Unauthorized to cancel appointment' });
     }
     console.log(updateData)
@@ -87,6 +87,22 @@ async function updateAppointment(req, res) {
     }
     res.status(200).json(updatedAppointment);
   } catch (error) {
+    console.error('Error updating appointment:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+async function addNotes(req, res) {
+  try {
+    const appointmentId = req.params.id;
+    const { notes } = req.body;
+    const updatedAppointment = await Appointment.findByIdAndUpdate(appointmentId, { notes }, { new: true });
+    if (!updatedAppointment) {
+      return res.status(404).json({ error: 'Appointment not found' });
+    }
+    res.status(200).json(updatedAppointment);
+  }
+  catch (error) {
     console.error('Error updating appointment:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
@@ -108,4 +124,4 @@ async function deleteAppointment(req, res) {
   }
 }
 
-module.exports = { createAppointment, getAllAppointments, getAppointmentById, updateAppointment, deleteAppointment };
+module.exports = { createAppointment, getAllAppointments, getAppointmentById, updateAppointment, deleteAppointment, addNotes };

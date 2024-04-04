@@ -5,6 +5,10 @@ import { jwtDecode } from "jwt-decode";
 function Homepage() {
 
   const [nextAppointments, setNextAppointments] = useState([]);
+  const [isDoctor, setIsDoctor] = useState(false); 
+  const [isPatient, setIsPatient] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
+  const [userType, setUserType] = useState(''); 
   const URL = 'http://localhost:8000/'; //This constant needs to change when the application is deployed
 
   const getToken = () => {
@@ -13,29 +17,62 @@ function Homepage() {
   };
 
   const user = jwtDecode(getToken()).name;
-  const userType = jwtDecode(getToken()).role;
 
-  useEffect(() => {
-    const getNextAppointments = async () => {
-      try {
-        const response = await fetch(URL + 'appointments');
-        const data = await response.json();
-        if (data.length > 0) {
-          // Filter appointments for the current day
-          const currentDate = new Date().toLocaleDateString();
-          const filteredAppointments = data.filter(appointment => new Date(appointment.dateTime).toLocaleDateString() === currentDate);
-          // Sort appointments by time
-          const sortedAppointments = filteredAppointments.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
-          // Set the next appointments
-          setNextAppointments(sortedAppointments);
-        }
-      } catch (error) {
-        console.error('Error:', error);
+  const userId = jwtDecode(getToken()).userId;
+    console.log(userId);
+
+    useEffect(() => {
+      const userType = jwtDecode(getToken()).role;
+      setUserType(userType); // Set the userType state
+    
+      if (userType === 'doctor') {
+        setIsDoctor(true);
+      } else if (userType === 'patient') {
+        setIsPatient(true);
+      } else if (userType === 'front desk' || userType === 'IT staff') {
+        setIsStaff(true);
       }
-    };
-
-    getNextAppointments();
-  }, []);
+    
+      const getNextAppointments = async () => {
+        try {
+          const response = await fetch(URL + 'appointments');
+          const data = await response.json();
+          console.log(data);
+          
+          if (data.length > 0) {
+            // Filter appointments for the current day
+            const currentDate = new Date().toLocaleDateString();
+            console.log(currentDate);
+            let filteredAppointments = [];
+    
+            if (isDoctor) {
+              // Filter appointments for the current doctor
+              filteredAppointments = data.filter(appointment => appointment.doctor === userId);
+            } else if (isPatient) {
+              // Filter appointments for the current patient
+              filteredAppointments = data.filter(appointment => appointment.patient === userId);
+            } else if (isStaff) {
+              // Filter appointments for all users
+              filteredAppointments = data;
+            }
+    
+            // Filter appointments for the current day
+            filteredAppointments = filteredAppointments.filter(appointment => new Date(appointment.dateTime).toLocaleDateString() === currentDate);
+    
+            // Sort appointments by time
+            const sortedAppointments = filteredAppointments.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+            
+            // Set the next appointments
+            setNextAppointments(sortedAppointments);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+    
+      getNextAppointments();
+    }, [isDoctor, isPatient, isStaff]); 
+    
 
   return (
     <div>
@@ -52,7 +89,8 @@ function Homepage() {
           </td>
           <td id='right-message'>
             <div className="homepage-container">  
-              <h1 id='title-container'>Your next appointment:</h1>
+              {(userType === 'doctor' || userType === 'patient') && <h1 id='title-container'>Your next appointment:</h1>}
+              {(userType === 'front desk' || userType === 'IT staff') && <h1 id='title-container'>Today's appointments:</h1>}
               <hr></hr>
               {nextAppointments.length > 0 ? (
                 <div>

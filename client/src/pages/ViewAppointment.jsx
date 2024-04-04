@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import Swal from 'sweetalert2'
 import './ViewAppointment.css';
 
 const ViewAppointment = () => {
@@ -9,6 +11,9 @@ const ViewAppointment = () => {
   const [patient, setPatient] = useState(null);
   const [patientExist, setPatientExist] = useState(true);
   const [renderApp, setRenderApp] = useState(false);
+  const [isDoctor, setIsDoctor] = useState(false);
+  const [appointmentNotes, setAppointmentNotes] = useState('');
+  const [patientNotes, setPatientNotes] = useState('');
   const appointmentId = searchParams.get("id");
 
   const loadData = async () => {
@@ -37,8 +42,57 @@ const ViewAppointment = () => {
   };
 
   useEffect(() => {
+    const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
+    const userType = jwtDecode(token).role;
+    if (userType === 'doctor') {
+      setIsDoctor(true);
+    }
     loadData();
   }, []); 
+
+  const handleAddAppointmentNotes = async () => {
+    const { value: notes } = await Swal.fire({
+      title: 'Add Appointment Notes',
+      input: 'textarea',
+      inputValue: appointmentData?.notes || '', 
+      inputPlaceholder: 'Type your notes here...',
+      showCancelButton: true,
+    });
+
+    if (notes) {
+      try {
+        await axios.put(`http://localhost:8000/appointments/${appointmentId}/notes`, { notes });
+        setAppointmentNotes(notes);
+        Swal.fire('Notes Added!', '', 'success');
+        window.location.reload();
+      } catch (error) {
+        console.error('Error adding appointment notes:', error);
+        Swal.fire('Error!', 'Failed to add notes', 'error');
+      }
+    }
+  };
+
+  const handleAddPatientNotes = async () => {
+    const { value: notes } = await Swal.fire({
+      title: 'Add Patient Notes',
+      input: 'textarea',
+      inputValue: patient?.notes || '', // Pre-fill with existing notes
+      inputPlaceholder: 'Type your notes here...',
+      showCancelButton: true,
+    });
+
+    if (notes) {
+      try {
+        await axios.put(`http://localhost:8000/patients/${patient._id}`, { notes });
+        setPatientNotes(notes);
+        Swal.fire('Notes Added!', '', 'success');
+        window.location.reload();
+      } catch (error) {
+        console.error('Error adding patient notes:', error);
+        Swal.fire('Error!', 'Failed to add notes', 'error');
+      }
+    }
+  };
 
   return (
     <>
@@ -59,6 +113,13 @@ const ViewAppointment = () => {
                 <li>Notes: {appointmentData.notes}</li>
                 <li>Doctor Name: {appointmentData.doctorName}</li>
               </ul>
+              <div>
+              {isDoctor && (
+                  <button className="buttons-for-doctors" onClick={handleAddAppointmentNotes}>
+                    Add Notes to Appointment
+                  </button>
+                )}
+              </div>
 
               <div className={`heading`}>Patient Details</div>
               <ul className={``}>
@@ -69,6 +130,13 @@ const ViewAppointment = () => {
                 <li>Age: {patient.age}</li>
                 <li>Notes: {patient.notes}</li>
               </ul>
+              <div>
+              {isDoctor && (
+                  <button className="buttons-for-doctors" onClick={handleAddPatientNotes}>
+                    Add Notes to Patient
+                  </button>
+                )}
+              </div>
             </>
           ) : (
             <div>
