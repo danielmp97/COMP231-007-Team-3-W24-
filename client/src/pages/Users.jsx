@@ -4,6 +4,7 @@ import { get } from "mongoose";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
+import Swal from "sweetalert2";
 
 function ViewUser() {
   const [users, SetUsers] = useState([]);
@@ -12,7 +13,8 @@ function ViewUser() {
   const [patient, setPatient] = useState();
   const [doctor, setdoctor] = useState();
   const [userType, setUserType] = useState("Patient");
-  const [isStaff,setIsStaff]=useState(false)
+  const [isStaff,setIsStaff]=useState(false);
+  const [role,setRole]=useState();
   const URL = "http://localhost:8000/";
 
   useEffect(() => {
@@ -22,6 +24,7 @@ function ViewUser() {
       const decoded = jwtDecode(token);
       if (decoded.role === "IT staff" || decoded.role === "front desk") {
         setIsStaff(true);
+        setRole(decoded.role);
       }
     }
 
@@ -62,8 +65,17 @@ function ViewUser() {
   }; 
 
   const redirectToStaffInfo = (userId) => {
-    const url = `/view-staff?userId=${userId}`;
-    window.location.href = url;
+    if(role==="IT staff"){
+      const url = `/view-staff?userId=${userId}`;
+      window.location.href = url;  
+    } 
+    else if(role==="front desk"){
+      Swal.fire({
+        icon: "error",
+        title: "Permission Denied",
+        text: "You don't have permission to view staff details",
+      });
+    };
   };
 
   return (
@@ -99,7 +111,7 @@ function ViewUser() {
                 Staff
               </button>
             </div>
-            <h1>
+            <h1 className="user-type-count">
               {userType} (
               {userType === "Doctor"
                 ? doctor.length
@@ -135,7 +147,7 @@ function ViewUser() {
                   </tr>
                 )}
 
-{userType === "Staff" && (
+                {userType === "Staff" && (
                   <tr>
                     <th>Name</th>
 
@@ -143,20 +155,12 @@ function ViewUser() {
                     
 
                     <th>Role</th>
+
                     <th>Actions</th>
                   </tr>
                 )}
               </thead>
               <tbody>
-                {/* {appointments.map((appointment, index) => (
-    <tr key={index}>
-      <td>{appointment.patientName}</td>
-      <td>{appointment.doctorName}</td>
-      <td>{new Date(appointment.dateTime).toLocaleDateString()}</td>
-      <td>{new Date(appointment.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
-      <td>{appointment.reason}</td>
-    </tr>
-  ))} */}
                 {userType === "Patient" &&
                   patient.map((data, index) => (
                     <tr key={index}>
