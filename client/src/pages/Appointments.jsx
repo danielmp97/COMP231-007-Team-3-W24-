@@ -74,13 +74,8 @@ function Appointments() {
   const cancelAppointment = async (id) => {
     setRenderApp(false);
     try {
-      const cookies = new Cookies(null, { path: "/" });
-      const token = cookies.get("token");
-      console.log(token);
-      const response = await axios.put(`${URL}appointments/${id}`, { status: "canceled" }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+      const response = await fetch(`http://localhost:8000/appointments/${id}`, {
+        method: 'DELETE',
       });
 
       if (response.status === 200) {
@@ -89,6 +84,7 @@ function Appointments() {
           icon: "success",
           confirmButtonText: "Ok"
         });
+        window.location.reload();
         setRenderApp(true);
       }
     } catch(err) {

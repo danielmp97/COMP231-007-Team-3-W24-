@@ -94,21 +94,17 @@ async function updateAppointment(req, res) {
 
 async function deleteAppointment(req, res) {
   try {
-    const { role } = req.user; // Assuming role is passed through authentication middleware
     const appointmentId = req.params.id;
-    
-    if (role !== 'frontDesk' && role !== 'IT') {
-      return res.status(403).json({ error: 'Unauthorized to delete appointment' });
-    }
-    
-    const deletedAppointment = await Appointment.findByIdAndDelete(appointmentId);
+    const deletedAppointment = await Appointment.findByIdAndDelete(
+      appointmentId
+    );
     if (!deletedAppointment) {
-      return res.status(404).json({ error: 'Appointment not found' });
+      return res.status(404).json({ error: "Appointment not found" });
     }
-    res.status(200).json({ message: 'Appointment deleted successfully' });
+    res.status(200).json({ message: "Appointment deleted successfully" });
   } catch (error) {
-    console.error('Error deleting appointment:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error("Error deleting appointment:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
