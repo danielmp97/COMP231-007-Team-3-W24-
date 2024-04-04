@@ -10,6 +10,8 @@ function Login() {
   const [userType, setUserType] = React.useState('patient');
   const navigate = useNavigate(); 
 
+
+
   const handleLogin = async () => {
     try {
       const response = await fetch(URL + 'login', {
@@ -18,15 +20,17 @@ function Login() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          email: username,
-          password: password,
-          role: userType
+          email: 'user@example.com',
+          password: 'pass',
+          role: 'doctor'
         })
       });
-
+  
       if (response.ok) {
         const data = await response.json();
+        console.log(data)
         const token = data.token;
+        console.log(token)
         document.cookie = `token=${token}; path=/`; 
         console.log('Login successful. Token:', token);
         navigate('/');
@@ -37,6 +41,7 @@ function Login() {
       console.error('Error:', error);
     }
   };
+  
 
   const handleForgotPassword = () => {
     // Handle forgot password action here

@@ -49,54 +49,51 @@ function Appointments() {
         setRenderApp(false);
         const response = await fetch(URL + 'appointments');
         const data = await response.json();
-        console.log(data);
-    
-        let filteredAppointments = [];
-    
-        if (isPatient) {
-          filteredAppointments = data.filter(appointment => appointment.patient === userId);
-        } else if (isDoctor) {
-          filteredAppointments = data.filter(appointment => appointment.doctor === userId);
-        } else if (isStaff) {
-          filteredAppointments = data;
-        }
-    
-        setAppointments(filteredAppointments);
-        setRenderApp(true);
+        setAppointments(data);
+        setRenderApp(true)
       } catch (error) {
         console.error('Error:', error);
       }
-    };    
-    
-    getAppointments(userId); 
-  }, [tokenExist]); 
+    };
 
-  const cancelAppointment = async (id) => {
-    setRenderApp(false);
-    try {
-      const response = await fetch(`http://localhost:8000/appointments/${id}`, {
-        method: 'DELETE',
-      });
+    getAppointments();
+  }, []);
 
-      if (response.status === 200) {
-        Swal.fire({
-          title: "Successfully canceled the appointment",
-          icon: "success",
-          confirmButtonText: "Ok"
-        });
-        window.location.reload();
-        setRenderApp(true);
-      }
-    } catch(err) {
-      console.error(err);
-      setRenderApp(true);
-      Swal.fire({
-        title: "Some problem occured",
-        icon: 'error',
-        confirmButtonText: "Ok"
-      });
+  const cancelAppointment = async(id) =>{
+    setRenderApp(false)
+   try{
+      const cookies = new Cookies(null, { path: "/" });
+      const token = cookies.get("token");
+      console.log(token)
+      const response = await axios.put(`http://localhost:8000/appointments/${id}`,{
+      status:"canceled"
+      },{
+      headers:{
+      Authorization:`Bearer ${token}`
     }
-  };
+  })
+
+if(response.status==200){
+  Swal.fire({
+    title:"Successfully canceled the appointment",
+    icon:"success",
+    confirmButtonText:"Ok"
+  })
+  setAppointments(prevAppointments =>
+    prevAppointments.filter(appointment => appointment._id !== id)
+  );
+  setRenderApp(true)
+}
+   }
+   catch(err){
+    setRenderApp(true)
+    Swal.fire({
+      title:"Some problem occured",
+      icon:'error',
+      confirmButtonText:"Ok"
+    })
+   }
+  }
   
   return (
     <>
