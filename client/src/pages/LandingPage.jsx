@@ -67,12 +67,7 @@ const LandingPage = () => {
                     <h2>Spotlight your brand.</h2>
                     <p>Brand experience hits a whole new level with a custom Booking Page. Show why your business stands apart and enable people to self-book at their convenience.</p>
                 </div>
-                {/* Feature 3 */}
-                <div className="feature">
-                    <h2>Stay one step ahead</h2>
-                    <p>Share your online Booking Page and every new appointment lands in your calendar.</p>
-                </div>
-                {/* Add more features as needed */}
+                
             </div>
 
             {/* Testimonials Section */}

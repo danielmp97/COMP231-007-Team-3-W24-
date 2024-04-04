@@ -16,6 +16,7 @@ import ViewPatientInfo from './pages/ViewPatientInfo';
 import ViewDoctor from './pages/ViewDoctor';
 import ViewStaff from './pages/ViewStaff';
 import LandingPage from './pages/LandingPage';
+import CreateUser from './pages/CreateUser';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <NavigationBar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path='/createusers' element={<CreateUser/>}/>
           <Route path="/create-appointment" element={<CreateAppointment />} /> 
           <Route path="/my-appointments" element={<Appointments />} />
           <Route path="/my-profile" element={<MyProfile />} />

@@ -90,8 +90,9 @@ function ForgotPassword() {
             <p>Your password has been successfully reset.</p>
             <p>Click <Link to="/login">here</Link> to go to the login page.</p>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
+        ) :
+         (
+          <form id='formmain' onSubmit={handleSubmit}>
             <div><h2>Forgot Password</h2></div>
             <div>
               <label htmlFor="email">Email:</label>
