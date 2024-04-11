@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { jwtDecode } from "jwt-decode";
 import bcrypt from 'bcryptjs';
+import Swal from 'sweetalert2';
 import './ChangeEmail.css'; 
+import { set } from 'mongoose';
 
 function ChangeEmail() {
   const [oldEmail, setOldEmail] = useState('');
@@ -22,31 +24,37 @@ function ChangeEmail() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    if (newPassword !== confirmPassword) {
-      alert('New password and confirm password do not match');
-      return;
-    }
-  
     try {
-      const response = await fetchUserData(role, userId);
-      if (!response) {
+      const userData = await fetchUserData(role);
+      if (!userData) {
         alert('User data not found');
         return;
       }
   
-      const userPassword = response.password;
+      const userPassword = userData.password;
+      const userEmail = userData.email;
   
-      // Check old password
-      const isOldPasswordValid = await bcrypt.compare(oldPassword, userPassword);
-      if (!isOldPasswordValid) {
-        alert('Invalid old password');
+      if (oldEmail === newEmail) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Warning',
+          text: 'Old email and new email must be different',
+        });
         return;
       }
   
-      // Hash the new password
-      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-  
-      // Update the password
+      // Check if password is correct
+      const isPasswordValid = await bcrypt.compare(password, userPassword);
+      if (!isPasswordValid) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Invalid password',
+        });
+        return;
+      }
+
+      // Update the email
       let updateUrl;
       switch (role) {
         case 'doctor':
@@ -60,58 +68,49 @@ function ChangeEmail() {
           updateUrl = `${URL}staff/${userId}`;
           break;
         default:
-          alert('Invalid user role');
-          return;
+          break;
       }
-  
+      const updatedUser = { email: newEmail };
       const updateResponse = await fetch(updateUrl, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          password: hashedNewPassword,
-        }),
+        body: JSON.stringify(updatedUser),
       });
-  
       if (updateResponse.ok) {
-        alert('Password change successful!');
-        // Reset form fields
-        setOldPassword('');
-        setNewPassword('');
-        setConfirmPassword('');
-        //log out
-        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        window.location.href = '/login';
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Email updated successfully',
+        });
+        setTimeout(() => {
+          window.location.href = '/my-profile';
+        }, 1000);
       } else {
-        alert('Password change failed!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Error updating email',
+        });
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('An unexpected error occurred.');
     }
   };
   
 
   const fetchUserData = async (userType) => {
-    if (role == 'doctor'){
-      const response = await fetch(`${URL}${userType}s/${userId}`);
-      if (response.ok) {
-        return await response.json();
-      }
+    let response;
+    if (userType === 'doctor' || userType === 'patient') {
+      response = await fetch(`${URL}${userType}s/${userId}`);
+    } else if (userType === 'IT staff' || userType === 'front desk') {
+      response = await fetch(`${URL}staff/${userId}`);
     }
-    if (role == 'patient'){
-      const response = await fetch(`${URL}${userType}s/${userId}`);
-      if (response.ok) {
-        return await response.json();
-      }
+    if (response.ok) {
+      return await response.json();
     }
-    if (role == 'IT staff' || role == 'front desk'){
-      const response = await fetch(`${URL}staff/${userId}`);
-      if (response.ok) {
-        return await response.json();
-      }
-    }
+    return null;
   };
 
   return (

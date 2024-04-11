@@ -70,7 +70,6 @@ function ViewStaff() {
       await axios.put(`${URL}staff/${staffMember._id}`, { role: selectedRole });
       Swal.fire('Success!', 'Role updated successfully!', 'success');
       setEditing(false);
-      // Refresh staff member data after role update
       const response = await axios.get(`${URL}staff/${staffMember._id}`);
       setStaffMember(response.data);
     } catch (error) {
@@ -89,6 +88,7 @@ function ViewStaff() {
             <div>
               <p><strong>Role:</strong> 
                 <select value={selectedRole} onChange={handleRoleChange}>
+                  <option value="">Select a role</option>
                   <option value="IT staff">IT staff</option>
                   <option value="front desk">Front Desk</option>
                 </select>
