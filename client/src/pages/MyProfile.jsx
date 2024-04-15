@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 function MyProfile() {
   const [userInfo, setUserInfo] = useState(null);
   const [userRole, setUserRole] = useState(null);
-  const URL = 'http://localhost:8000/';
+  const URL = 'https://medlink-m2u5.onrender.com';
   const [doctorFlag, setDoctorFlag] = useState(false);
   const [patientFlag, setPatientFlag] = useState(false);
   const [staffFlag, setStaffFlag] = useState(false);

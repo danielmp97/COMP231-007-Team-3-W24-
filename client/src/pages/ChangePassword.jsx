@@ -8,7 +8,7 @@ function ChangePassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const URL = 'http://localhost:8000/';
+  const URL = 'https://medlink-m2u5.onrender.com';
 
   const getToken = () => {
     const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];

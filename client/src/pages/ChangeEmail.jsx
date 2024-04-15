@@ -8,7 +8,7 @@ function ChangeEmail() {
   const [oldEmail, setOldEmail] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
-  const URL = 'http://localhost:8000/';
+  const URL = 'https://medlink-m2u5.onrender.com';
   
   const getToken = () => {
     const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];

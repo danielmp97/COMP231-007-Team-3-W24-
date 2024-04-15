@@ -18,7 +18,7 @@ function CreateAppointment() {
   const [doctorsDB, setDoctors] = useState([]);
   const [selectedDoctorId, setSelectedDoctorId] = useState('');
   const [selectedPatientId, setselectedPatientId] = useState('');
-  const URL = 'http://localhost:8000/';
+  const URL = 'https://medlink-m2u5.onrender.com';
 
   //Get apointments list
   useEffect(() => {

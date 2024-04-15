@@ -14,7 +14,7 @@ function ViewUser() {
   const [userType, setUserType] = useState("Patient");
   const [isStaff,setIsStaff]=useState(false);
   const [role,setRole]=useState();
-  const URL = "http://localhost:8000/";
+  const URL = "https://medlink-m2u5.onrender.com";
 
   useEffect(() => {
     const cookies = new Cookies(null, { path: "/" });
@@ -35,9 +35,9 @@ function ViewUser() {
   const getAllUserData = async () => {
     try {
       const data = await Promise.all([
-        axios.get("http://localhost:8000/doctors"),
-        axios.get("http://localhost:8000/patients"),
-        axios.get("http://localhost:8000/staff"),
+        axios.get("https://medlink-m2u5.onrender.com/doctors"),
+        axios.get("https://medlink-m2u5.onrender.com/patients"),
+        axios.get("https://medlink-m2u5.onrender.com/staff"),
       ]);
 
       const doctorData = await data[0].data;

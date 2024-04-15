@@ -65,7 +65,7 @@ function Users() {
     try {
       console.log(formData)
       const response = await axios.post(
-        "http://localhost:8000/patients",
+        "https://medlink-m2u5.onrender.com/patients",
         formData,
         {
           headers: {
@@ -108,7 +108,7 @@ function Users() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/staff",
+        "https://medlink-m2u5.onrender.com/staff",
         staffData,
         {
           headers: {
@@ -148,7 +148,7 @@ function Users() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/doctors",
+        "https://medlink-m2u5.onrender.com/doctors",
         doctorData,
         {
           headers: {

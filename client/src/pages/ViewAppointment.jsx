@@ -19,13 +19,13 @@ const ViewAppointment = () => {
   const loadData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/appointments/${appointmentId}`
+        `https://medlink-m2u5.onrender.com/appointments/${appointmentId}`
       );
 
       if (response.status === 200) {
         setAppointmentData(response?.data);
         const patientData = await axios.get(
-          `http://localhost:8000/patients/${response?.data?.patient}`
+          `https://medlink-m2u5.onrender.com/${response?.data?.patient}`
         );
 
         if (patientData.status === 200) {
@@ -61,7 +61,7 @@ const ViewAppointment = () => {
 
     if (notes) {
       try {
-        await axios.put(`http://localhost:8000/appointments/${appointmentId}/notes`, { notes });
+        await axios.put(`https://medlink-m2u5.onrender.com/appointments/${appointmentId}/notes`, { notes });
         setAppointmentNotes(notes);
         Swal.fire('Notes Added!', '', 'success');
         window.location.reload();
@@ -83,7 +83,7 @@ const ViewAppointment = () => {
 
     if (notes) {
       try {
-        await axios.put(`http://localhost:8000/patients/${patient._id}`, { notes });
+        await axios.put(`https://medlink-m2u5.onrender.com/patients/${patient._id}`, { notes });
         setPatientNotes(notes);
         Swal.fire('Notes Added!', '', 'success');
         window.location.reload();

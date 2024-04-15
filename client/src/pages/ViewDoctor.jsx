@@ -10,7 +10,7 @@ function ViewDoctor() {
   const [loading, setLoading] = useState(true);
   const [role, setRole]=useState();
 
-  const URL = 'http://localhost:8000/';
+  const URL = 'https://medlink-m2u5.onrender.com';
 
   useEffect(() => {
     const cookies = new Cookies(null, { path: "/" });

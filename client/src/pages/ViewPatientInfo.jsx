@@ -15,7 +15,7 @@ function ViewPatientInfo() {
   useEffect(() => {
     const fetchPatientInfo = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/patients/${userId}`);
+        const response = await axios.get(`https://medlink-m2u5.onrender.com/patients/${userId}`);
         setPatientInfo(response.data);
       } catch (error) {
         console.error('Error fetching patient information:', error);
@@ -41,7 +41,7 @@ function ViewPatientInfo() {
     // If user confirms deletion, proceed with deletion
     if (result.isConfirmed) {
       try {
-        await axios.delete(`http://localhost:8000/patients/${userId}`);
+        await axios.delete(`https://medlink-m2u5.onrender.com/patients/${userId}`);
         Swal.fire('Deleted!', 'Patient has been deleted.', 'success');
         navigate('/view-users'); 
       } catch (error) {

@@ -16,7 +16,7 @@ function Appointments() {
   const [isStaff, setIsStaff] = useState(false);
   const [userId, setUserId] = useState(null); 
 
-  const URL = 'http://localhost:8000/';
+  const URL = 'https://medlink-m2u5.onrender.com';
 
   useEffect(() => {
     const checkTokenExistence = () => {
