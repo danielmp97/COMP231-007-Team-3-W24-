@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import icons for password visibility
 import './ForgotPassword.css'; 
 
 function ForgotPassword() {
@@ -128,7 +127,7 @@ function ForgotPassword() {
                 disabled={!isEmailVerified || isVerifying || !code}
               />
               <button type="button" onClick={togglePasswordVisibility}>
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? 'Hide Password' : 'Show Password'}
               </button>
               <br />
               <small>Password must be 8-16 characters, </small>
@@ -146,7 +145,7 @@ function ForgotPassword() {
                 disabled={!isEmailVerified || isVerifying || !code}
               />
               <button type="button" onClick={togglePasswordVisibility}>
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? 'Hide Password' : 'Show Password'}
               </button>
             </div>
             <br />
