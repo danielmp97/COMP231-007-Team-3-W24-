@@ -32,6 +32,12 @@ app.use(staffRoutes);
 app.use(appointmentRoutes);
 app.use(authRoutes);
 
+//Use the client app
+app.use(express.static(path.join(__dirname, '/client/dist')))
+
+//render client for any path 
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '/client/dist/index.html')))
+
 // Define a simple route for testing
 app.get('/', (req, res) => {
   res.send('Server is running!');
