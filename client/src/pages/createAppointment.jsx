@@ -173,7 +173,7 @@ function CreateAppointment() {
   
       console.log(appointmentData);
   
-      const response = await fetch('http://localhost:8000/appointments', {
+      const response = await fetch('https://medlink-m2u5.onrender.com/appointments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

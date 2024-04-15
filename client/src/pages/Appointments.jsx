@@ -74,7 +74,7 @@ function Appointments() {
   const cancelAppointment = async (id) => {
     setRenderApp(false);
     try {
-      const response = await fetch(`http://localhost:8000/appointments/${id}`, {
+      const response = await fetch(`https://medlink-m2u5.onrender.com/appointments/${id}`, {
         method: 'DELETE',
       });
 
