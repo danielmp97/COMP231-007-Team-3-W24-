@@ -9,7 +9,6 @@ const mongoose = require('mongoose');
 
 const app = express();
 app.use(cors());
-const PORT = process.env.PORT || 8000; 
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
@@ -44,6 +43,6 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
+app.listen(() => {
   console.log(`Server is running at https://medlink-m2u5.onrender.com`);
 });
