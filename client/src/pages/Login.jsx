@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 
 
 function Login() {
-  const URL = 'https://medlink-m2u5.onrender.com';
+  const URL = 'https://medlink-m2u5.onrender.com/';
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('');

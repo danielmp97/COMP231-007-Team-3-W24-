@@ -10,7 +10,7 @@ function Homepage() {
   const [isPatient, setIsPatient] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
   const [userType, setUserType] = useState(''); 
-  const URL = 'https://medlink-m2u5.onrender.com'; //This constant needs to change when the application is deployed
+  const URL = 'https://medlink-m2u5.onrender.com/'; //This constant needs to change when the application is deployed
 
   const getToken = () => {
     const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];

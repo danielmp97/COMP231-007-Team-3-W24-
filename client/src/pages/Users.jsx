@@ -14,7 +14,7 @@ function ViewUser() {
   const [userType, setUserType] = useState("Patient");
   const [isStaff,setIsStaff]=useState(false);
   const [role,setRole]=useState();
-  const URL = "https://medlink-m2u5.onrender.com";
+  const URL = "https://medlink-m2u5.onrender.com/";
 
   useEffect(() => {
     const cookies = new Cookies(null, { path: "/" });

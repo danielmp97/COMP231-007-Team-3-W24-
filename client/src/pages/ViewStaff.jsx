@@ -8,7 +8,7 @@ function ViewStaff() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
-  const URL = 'https://medlink-m2u5.onrender.com';
+  const URL = 'https://medlink-m2u5.onrender.com/';
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);

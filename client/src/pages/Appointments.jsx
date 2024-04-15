@@ -47,7 +47,7 @@ function Appointments() {
         }
     
         setRenderApp(false);
-        const response = await fetch(URL + 'appointments');
+        const response = await fetch(URL + '/appointments');
         const data = await response.json();
         console.log(data);
     
