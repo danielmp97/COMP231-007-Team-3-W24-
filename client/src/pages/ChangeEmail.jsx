@@ -3,7 +3,6 @@ import { jwtDecode } from "jwt-decode";
 import bcrypt from 'bcryptjs';
 import Swal from 'sweetalert2';
 import './ChangeEmail.css'; 
-import { set } from 'mongoose';
 
 function ChangeEmail() {
   const [oldEmail, setOldEmail] = useState('');
