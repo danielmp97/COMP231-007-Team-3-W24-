@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./Users.css";
-import { get } from "mongoose";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
